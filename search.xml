@@ -3,6 +3,17 @@
   
     
     <entry>
+      <title>四火的置顶</title>
+      <link href="/2018/10/19/%E5%9B%9B%E7%81%AB%E7%9A%84%E7%BD%AE%E9%A1%B6/"/>
+      <url>/2018/10/19/%E5%9B%9B%E7%81%AB%E7%9A%84%E7%BD%AE%E9%A1%B6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="四火的置顶"><a href="#四火的置顶" class="headerlink" title="四火的置顶"></a>四火的置顶</h1><p>我叫陈钊燚，是华中科技大学软件学院的一名小学生，也是华中科技大学软件学院科创团队和启明学院联创团队Android组的一名小学生。现在主要做一些安卓开发、研究的事情。从大学入学就有开博客的想法，只是困于一开始水平不高，不敢丢人现眼，于是努力学习，这些天有了一些小想法和小总结，感觉有必要正式地记录下来，于是开了这个博客。</p><hr><h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ul><li>Android开发记录</li><li>Android源码学习</li><li>计算机知识记录，包括一些课程中、自学中的感受。</li><li>其他杂七杂八</li></ul><hr><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴一些前辈大佬，但绝不是照抄照搬，记录的都是个人的学习感受。但如果有原作者认为本人有侵犯版权的行为，请发邮件通知我，一定按理处理。</p><p><strong>And 小学生谢谢点开博客的各位，欢迎所有人的评价、建议以及批评。共勉</strong></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    <entry>
       <title>跳出小世界</title>
       <link href="/2018/10/19/%E8%B7%B3%E5%87%BA%E5%B0%8F%E4%B8%96%E7%95%8C/"/>
       <url>/2018/10/19/%E8%B7%B3%E5%87%BA%E5%B0%8F%E4%B8%96%E7%95%8C/</url>
@@ -24,17 +35,6 @@
             <tag> 翻墙 </tag>
             
         </tags>
-      
-    </entry>
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2018/10/18/hello-world/"/>
-      <url>/2018/10/18/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
       
     </entry>
     
