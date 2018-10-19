@@ -78,6 +78,8 @@
     <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
     
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -226,10 +228,8 @@
 </head>
 
     
-        <body class="home-body">
     
-    
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -245,34 +245,21 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/code.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Fourfire's Blog
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-            
-                一个程序员的小心思
-            
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -384,46 +371,6 @@ height:50vh;
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/19/四火的置顶/" >
-            
-                <span class="stick-top iconfont-archer">&#xe63d;</span>
-                
-                <span>四火的置顶</span>
-        </a>
-        <div class="abstract-content">
-            四火的置顶我叫陈钊燚，是华中科技大学软件学院的一名小学生，也是华中科技大学软件学院科创团队和启明学院联创团队Android组的一名小学生。现在主要做一些安卓开发、研究的事情。从大学入学就有开博客的想法，只是困于一开始水平不高，不敢丢人现眼，于是努力学习，这些天有了一些小想法和小总结，感觉有必要正式地记录下来，于是开了这个博客。
-
-主要内容
-Android开发记录
-Android源码学习：主要以最新的API28为分析对象，如有不同版本，会在博文开头说明。
-计算机知识记录，包括一些课程中、自学中的感受。
-其他杂七杂八
-
-
-声明此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "置顶">置顶</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/2018/10/19/Zygote、System进程启动/" >
             
                 <span>Zygote、System进程启动</span>
@@ -458,119 +405,10 @@ And...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/19/跳出小世界/" >
-            
-                <span>跳出小世界</span>
-        </a>
-        <div class="abstract-content">
-            VPS梯子架设教程程序员入门必修课，番羽土啬hhhh。这篇教程教你从0搭梯子
-需要用到的工具和平台有：钱、VPS主机、shadowsocks
-原理
-简单讲讲关于墙的原理。我们进行网络访问时，将域名，比如www.baidu.com 通过一层层发向更高级的主机，进行解析成为IP地址（类似127.0.0.1这样的格式），再根据IP发送到真正需要发送的服务器，由服务器返回你需要的数据。
-而提供上层网络服务的节点（ISP）是可以控制的，在CN范围内的网络，都受到GFW的控制，GFW是The Great Fire Wall of China的简写，意指“中国网络防火墙”(字面意为“中国防火长城”)，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "shadowsocks">shadowsocks</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "翻墙">翻墙</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
 </main>
             <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/avator.jpg >
-    <div class="profile-name">Fourfire</div>
-    
-    <div class="profile-signature">
-        一个Android程序员的小心思
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:1215638092@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-    
-        
-    
-        
-            
-                <span class="iconfont-archer qq" title=qq>
-                  
-                  <img class="profile-qr" src="/intro/qq.jpg" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
             
         </div>
         <footer class="footer footer-unloaded">

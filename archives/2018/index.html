@@ -371,6 +371,46 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/10/19/Zygote、System进程启动/" >
+            
+                <span>Zygote、System进程启动</span>
+        </a>
+        <div class="abstract-content">
+            概述Zygote，翻译为中文是“受精卵”，它是Android系统中，所有Java进程的父进程，负责创建新进程。System进程，是Android系统中系统服务运行所在的进程，它负责创建、管理所有的系统服务，包括AMS、PackageManagerServer等等十分重要的服务，都运行在System进程中。
+Zygote和System进程的生命周期伴随整个系统，在系统启动时就会启动这两个进程，而直到系统关闭，它们才会被杀死。
+值得一提的是，在Android5.0之后，Zygote进程在系统中一共存在两个，这主要是为了适应新增加的64位cpu而设计的，它们两个的主要功能其实是一致的。
+And...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android系统">Android系统</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Zygote">Zygote</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "System">System</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "进程">进程</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/10/19/四火的置顶/" >
             
                 <span class="stick-top iconfont-archer">&#xe63d;</span>
@@ -382,12 +422,12 @@
 
 主要内容
 Android开发记录
-Android源码学习
+Android源码学习：主要以最新的API28为分析对象，如有不同版本，会在博文开头说明。
 计算机知识记录，包括一些课程中、自学中的感受。
 其他杂七杂八
 
 
-声明此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴一些前辈大佬，但绝不是照抄照搬，记录的都是个人的学习感受。但如果有原...
+声明此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -551,9 +591,16 @@ Android源码学习
     
     
     
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 2
+        总数 : 3
         </div>
         <!-- search  -->
         
@@ -573,6 +620,11 @@ Android源码学习
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2018/10/19/Zygote、System进程启动/" >Zygote、System进程启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2018/10/19/四火的置顶/" >四火的置顶</a>
         </li>
     
@@ -586,11 +638,21 @@ Android源码学习
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zygote"><span class="iconfont-archer">&#xe606;</span>Zygote</span>
+    
+        <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
+    
+        <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -626,6 +688,8 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
+    
+        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
