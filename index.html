@@ -424,6 +424,85 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/11/05/Pipe_vs_eventfd/" >
+            
+                <span>两种IPC方式 Pipe vs eventfd</span>
+        </a>
+        <div class="abstract-content">
+            两种IPC方式 Pipe vs eventfd四火想专门对比这两种IPC方式的原因是，这些天在看Android的消息处理机制，书上的源码用的是老版本的Android，使用的IPC是管道，但最新版本的AOSP中，消息处理机制使用的IPC方式已经改为eventfd了。好奇心激发我去了解了一下，有必要记录下来。
+pipe管道管道是最原始最基本的IPC机制，用于在进程之间完成数据传递。管道的特点非常鲜明：管道的数据传输是单向的，只能一端写一端读，所以它也采用了两个文件描述符引用，一个表示读端一个表示写端。
+对管道进行读写实质上是对内核空间中的一片区域进行读写，管道是由内核管理的一个缓冲区，相当于...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "IPC">IPC</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Android消息处理机制">Android消息处理机制</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/11/05/Linux_IO简记/" >
+            
+                <span>Linux I/O简记</span>
+        </a>
+        <div class="abstract-content">
+            Linux I/O简记缓存IOLinux默认的IO操作都是缓存IO，数据从源出发，不会被直接传送到目的，而是要经过内核，通过这种方式保证了内核对IO操作的可控。内核为IO提供了一个数据缓冲区，数据从源出发，先被拷贝到内核的缓冲区中，然后才从缓冲区拷贝到目的进程的用户地址空间。
+IO模式Linux为IO提供了5种方案：
+
+阻塞IO
+非阻塞IO
+IO多路复用
+信号驱动IO
+异步IO
+
+阻塞IOLinux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备的过程...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "I/O">I/O</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "多路复用">多路复用</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "poll、epoll、select">poll、epoll、select</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/10/19/Zygote、System进程启动/" >
             
                 <span>Zygote、System进程启动</span>
@@ -685,9 +764,27 @@ And...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 3
+        总数 : 5
         </div>
         <!-- search  -->
         
@@ -704,6 +801,16 @@ And...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2018/11/05/Pipe_vs_eventfd/" >两种IPC方式 Pipe vs eventfd</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2018/11/05/Linux_IO简记/" >Linux I/O简记</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -725,10 +832,6 @@ And...
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
-        <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
-    
-        <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
-    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
@@ -738,6 +841,22 @@ And...
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
+    
+        <span class="sidebar-tag-name" data-tags="多路复用"><span class="iconfont-archer">&#xe606;</span>多路复用</span>
+    
+        <span class="sidebar-tag-name" data-tags="poll、epoll、select"><span class="iconfont-archer">&#xe606;</span>poll、epoll、select</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC"><span class="iconfont-archer">&#xe606;</span>IPC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android消息处理机制"><span class="iconfont-archer">&#xe606;</span>Android消息处理机制</span>
+    
+        <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
+    
+        <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
     
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
@@ -774,9 +893,11 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
-    
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
