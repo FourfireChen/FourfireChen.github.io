@@ -303,7 +303,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.4k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -441,10 +441,10 @@ height:50vh;
 <li>信号驱动IO</li>
 <li>异步IO</li>
 </ol>
-<h3 id="阻塞IO"><a href="#阻塞IO" class="headerlink" title="阻塞IO"></a>阻塞IO</h3><p>Linux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备的过程中，用户进程会被阻塞，直到内核准备好了数据，才返回结果给用户进程，使用户进程唤醒。</p>
-<h3 id="非阻塞IO"><a href="#非阻塞IO" class="headerlink" title="非阻塞IO"></a>非阻塞IO</h3><p>用户进程发出read，如果内核还没有准备好，会返回error，用户进程不需要等待，但是它取不到数据的可能性很大，需要不断地发出read请求，直到内核准备好了数据。</p>
-<h3 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h3><p>IO多路复用常见于select、poll、epoll。多路IO顾名思义同时进行多个IO，它的意义在于同时与多个Socket进行IO，只要监听列表中有一个或者多个socket有数据到来，用户进程就会被唤醒，通知处理。下面分别讲讲select、poll和epoll</p>
-<h4 id="select"><a href="#select" class="headerlink" title="select"></a>select</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="1-阻塞IO"><a href="#1-阻塞IO" class="headerlink" title="1. 阻塞IO"></a>1. 阻塞IO</h3><p>Linux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备的过程中，用户进程会被阻塞，直到内核准备好了数据，才返回结果给用户进程，使用户进程唤醒。</p>
+<h3 id="2-非阻塞IO"><a href="#2-非阻塞IO" class="headerlink" title="2. 非阻塞IO"></a>2. 非阻塞IO</h3><p>用户进程发出read，如果内核还没有准备好，会返回error，用户进程不需要等待，但是它取不到数据的可能性很大，需要不断地发出read请求，直到内核准备好了数据。</p>
+<h3 id="3-IO多路复用"><a href="#3-IO多路复用" class="headerlink" title="3. IO多路复用"></a>3. IO多路复用</h3><p>IO多路复用常见于select、poll、epoll。多路IO顾名思义同时进行多个IO，它的意义在于同时与多个Socket进行IO，只要监听列表中有一个或者多个socket有数据到来，用户进程就会被唤醒，通知处理。下面分别讲讲select、poll和epoll</p>
+<h4 id="3-1-select"><a href="#3-1-select" class="headerlink" title="3.1 select"></a>3.1 select</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span><span class="params">(<span class="keyword">int</span> nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>select函数的主要逻辑是，传入要监听的文件描述符，用户进程需要将这些文件描述符fds拷贝给内核，而且这里文件描述符的数量是有限的，一般是被宏定义为1024，然后内核对fds指向的socket进行监听，挨个进行poll逻辑，检查是不是有可读事件，如果一个都没有，用户进程陷入阻塞。如果有事件到来，内核就会唤醒用户进程，接下来用户进程需要对每个socket尝试读取。</p>
 <p>所以select有很大的缺点</p>
 <ol>
@@ -452,12 +452,12 @@ height:50vh;
 <li>fds需要从用于空间拷贝到内核空间，太麻烦了。</li>
 <li>只要有一个fds是有数据可读的，所有socket都要被遍历一次，太惨了。</li>
 </ol>
-<h4 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h4><p>poll其实有点傻，poll只解决了1024问题，就是把监听的文件大小变大了，但没有解决第2、3个问题，这就意味着，监听的文件数量可以很大，但每次只要有一个事件到来，就要遍历所有的socket，这就很尴尬了，一旦大并发，不言而喻。</p>
-<h4 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h4><p>select的第一个缺点很好解决，解决第二、三个缺点比较棘手，epoll采用了两个思想，一是添加中间层封装简化处理，二是分散事件处理，将高频、低频、不同事件分开处理，提高处理精确度。</p>
-<h5 id="分散处理优化拷贝消耗"><a href="#分散处理优化拷贝消耗" class="headerlink" title="分散处理优化拷贝消耗"></a>分散处理优化拷贝消耗</h5><p>epoll将高频调用的唤醒/等待与低频调用的添加/删除/修改fd分开。唤醒、通知回调处理、等待这块的逻辑，epoll采用了内存映射，将内核空间中存储要返回给用户空间的数据的这块空间，映射到用户空间中，这样就避免了多次的内存拷贝，用户空间能直接访问到返回的数据。添加删除修改监听事件的逻辑，则是被分开进行处理，减少冗余的内存占用。</p>
-<h5 id="中间层实线按需遍历"><a href="#中间层实线按需遍历" class="headerlink" title="中间层实线按需遍历"></a>中间层实线按需遍历</h5><p>epoll添加了中间层用来精确处理有数据返回的fds，只将有数据的fds暴露给用户进程，这样就避免了用户进程每次都要遍历所有监听的socket，极大地减少了内存占用。在select/poll中，用户进程会睡眠在一个包含其监听的所有socket的集合上，每次这个集合中有准备好的socket，就会唤醒该用户进程。而在epoll中，用户进程则是睡眠在epoll提供的中间层上，中间层再引入一个wait_entry_sk，与每个监听的socket一一对应，然后睡眠在socket集合上，每当集合中有事件来临，则通知wait_entry_sk，将它对应的socket放入中间层提供的ready_list中，然后唤醒用户进程去处理ready_list。</p>
-<h3 id="信号驱动IO"><a href="#信号驱动IO" class="headerlink" title="信号驱动IO"></a>信号驱动IO</h3><p>信号驱动IO是一种半阻塞的IO，在准备数据阶段不阻塞，用户进程发送read后，直接返回。而等到数据准备完成之后，内核给用户空间发信号，通知用户进程阻塞，然后再将数据从内核空间复制到用户空间，这个过程是阻塞的。</p>
-<h3 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h3><p>异步IO在整个IO过程中均不阻塞，用户进程发起read操作之后，立即返回，而内核接收请求之后，进行数据准备，并且在数据准备完成之后，将数据复制到用户进程空间，整个过程均不阻塞用户进程，完成之后再发送信号通知用户进程读取数据。</p>
+<h4 id="3-2-poll"><a href="#3-2-poll" class="headerlink" title="3.2 poll"></a>3.2 poll</h4><p>poll其实有点傻，poll只解决了1024问题，就是把监听的文件大小变大了，但没有解决第2、3个问题，这就意味着，监听的文件数量可以很大，但每次只要有一个事件到来，就要遍历所有的socket，这就很尴尬了，一旦大并发，不言而喻。</p>
+<h4 id="3-3-epoll"><a href="#3-3-epoll" class="headerlink" title="3.3 epoll"></a>3.3 epoll</h4><p>select的第一个缺点很好解决，解决第二、三个缺点比较棘手，epoll采用了两个思想，一是添加中间层封装简化处理，二是分散事件处理，将高频、低频、不同事件分开处理，提高处理精确度。</p>
+<h5 id="3-3-1-分散处理优化拷贝消耗"><a href="#3-3-1-分散处理优化拷贝消耗" class="headerlink" title="3.3.1 分散处理优化拷贝消耗"></a>3.3.1 分散处理优化拷贝消耗</h5><p>epoll将高频调用的唤醒/等待与低频调用的添加/删除/修改fd分开。唤醒、通知回调处理、等待这块的逻辑，epoll采用了内存映射，将内核空间中存储要返回给用户空间的数据的这块空间，映射到用户空间中，这样就避免了多次的内存拷贝，用户空间能直接访问到返回的数据。添加删除修改监听事件的逻辑，则是被分开进行处理，减少冗余的内存占用。</p>
+<h5 id="3-3-2-中间层实线按需遍历"><a href="#3-3-2-中间层实线按需遍历" class="headerlink" title="3.3.2 中间层实线按需遍历"></a>3.3.2 中间层实线按需遍历</h5><p>epoll添加了中间层用来精确处理有数据返回的fds，只将有数据的fds暴露给用户进程，这样就避免了用户进程每次都要遍历所有监听的socket，极大地减少了内存占用。在select/poll中，用户进程会睡眠在一个包含其监听的所有socket的集合上，每次这个集合中有准备好的socket，就会唤醒该用户进程。而在epoll中，用户进程则是睡眠在epoll提供的中间层上，中间层再引入一个wait_entry_sk，与每个监听的socket一一对应，然后睡眠在socket集合上，每当集合中有事件来临，则通知wait_entry_sk，将它对应的socket放入中间层提供的ready_list中，然后唤醒用户进程去处理ready_list。</p>
+<h3 id="4-信号驱动IO"><a href="#4-信号驱动IO" class="headerlink" title="4. 信号驱动IO"></a>4. 信号驱动IO</h3><p>信号驱动IO是一种半阻塞的IO，在准备数据阶段不阻塞，用户进程发送read后，直接返回。而等到数据准备完成之后，内核给用户空间发信号，通知用户进程阻塞，然后再将数据从内核空间复制到用户空间，这个过程是阻塞的。这种IO方式用得比较少。</p>
+<h3 id="5-异步IO"><a href="#5-异步IO" class="headerlink" title="5. 异步IO"></a>5. 异步IO</h3><p>异步IO在整个IO过程中均不阻塞，用户进程发起read操作之后，立即返回，而内核接收请求之后，进行数据准备，并且在数据准备完成之后，将数据复制到用户进程空间，整个过程均不阻塞用户进程，完成之后再发送信号通知用户进程读取数据。</p>
 
     </article>
     <!-- license  -->
@@ -466,7 +466,7 @@ height:50vh;
             <p>原文作者：<a href="http://fourfire.top">Fourfire</a>
             <p>原文链接：<a href="http://fourfire.top/2018/11/05/Linux_IO简记/">http://fourfire.top/2018/11/05/Linux_IO简记/</a>
             <p>发表日期：<a href="http://fourfire.top/2018/11/05/Linux_IO简记/">November 5th 2018, 12:00:00 pm</a>
-            <p>更新日期：<a href="http://fourfire.top/2018/11/05/Linux_IO简记/">November 5th 2018, 4:47:09 pm</a>
+            <p>更新日期：<a href="http://fourfire.top/2018/11/05/Linux_IO简记/">November 5th 2018, 7:41:06 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -615,7 +615,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-I-O简记"><span class="toc-number">1.</span> <span class="toc-text">Linux I/O简记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存IO"><span class="toc-number">1.1.</span> <span class="toc-text">缓存IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO模式"><span class="toc-number">1.2.</span> <span class="toc-text">IO模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞IO"><span class="toc-number">1.2.1.</span> <span class="toc-text">阻塞IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非阻塞IO"><span class="toc-number">1.2.2.</span> <span class="toc-text">非阻塞IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IO多路复用"><span class="toc-number">1.2.3.</span> <span class="toc-text">IO多路复用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#select"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">select</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#poll"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">poll</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#epoll"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">epoll</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分散处理优化拷贝消耗"><span class="toc-number">1.2.3.3.1.</span> <span class="toc-text">分散处理优化拷贝消耗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#中间层实线按需遍历"><span class="toc-number">1.2.3.3.2.</span> <span class="toc-text">中间层实线按需遍历</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号驱动IO"><span class="toc-number">1.2.4.</span> <span class="toc-text">信号驱动IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步IO"><span class="toc-number">1.2.5.</span> <span class="toc-text">异步IO</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-I-O简记"><span class="toc-number">1.</span> <span class="toc-text">Linux I/O简记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存IO"><span class="toc-number">1.1.</span> <span class="toc-text">缓存IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO模式"><span class="toc-number">1.2.</span> <span class="toc-text">IO模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-阻塞IO"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 阻塞IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-非阻塞IO"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 非阻塞IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-IO多路复用"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. IO多路复用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-select"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">3.1 select</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-poll"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">3.2 poll</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-epoll"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">3.3 epoll</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-1-分散处理优化拷贝消耗"><span class="toc-number">1.2.3.3.1.</span> <span class="toc-text">3.3.1 分散处理优化拷贝消耗</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-2-中间层实线按需遍历"><span class="toc-number">1.2.3.3.2.</span> <span class="toc-text">3.3.2 中间层实线按需遍历</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-信号驱动IO"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 信号驱动IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-异步IO"><span class="toc-number">1.2.5.</span> <span class="toc-text">5. 异步IO</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -721,6 +721,16 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
+    
+        <span class="sidebar-tag-name" data-tags="多路复用"><span class="iconfont-archer">&#xe606;</span>多路复用</span>
+    
+        <span class="sidebar-tag-name" data-tags="poll、epoll、select"><span class="iconfont-archer">&#xe606;</span>poll、epoll、select</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
@@ -731,23 +741,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
     
-        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
-    
-        <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
-    
-        <span class="sidebar-tag-name" data-tags="多路复用"><span class="iconfont-archer">&#xe606;</span>多路复用</span>
-    
-        <span class="sidebar-tag-name" data-tags="poll、epoll、select"><span class="iconfont-archer">&#xe606;</span>poll、epoll、select</span>
-    
-        <span class="sidebar-tag-name" data-tags="IPC"><span class="iconfont-archer">&#xe606;</span>IPC</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android消息处理机制"><span class="iconfont-archer">&#xe606;</span>Android消息处理机制</span>
-    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+        <span class="sidebar-tag-name" data-tags="IPC"><span class="iconfont-archer">&#xe606;</span>IPC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android消息处理机制"><span class="iconfont-archer">&#xe606;</span>Android消息处理机制</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -782,9 +782,9 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
-    
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
         <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
