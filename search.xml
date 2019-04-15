@@ -3,24 +3,81 @@
   
     
     <entry>
-      <title></title>
-      <link href="/2019/04/15/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%B8%80%E2%80%94%E2%80%94%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/"/>
-      <url>/2019/04/15/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%B8%80%E2%80%94%E2%80%94%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Ashmem匿名共享内存一——驱动程序"><a href="#Ashmem匿名共享内存一——驱动程序" class="headerlink" title="Ashmem匿名共享内存一——驱动程序"></a>Ashmem匿名共享内存一——驱动程序</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Ashmem，全称Anonymous  Shared Memory。匿名共享内存。</p><p>Ashmem匿名共享内存是Android系统实现的一种内存共享机制，用于IPC。与传统的Linux内存共享一样，Ashmem也是基于tmpfs实现的，不过Ashmem做了更为细致的内存管理，将整块共享内存切割，可动态回收，动态分配。</p><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><h4 id="ashmem-area"><a href="#ashmem-area" class="headerlink" title="ashmem_area"></a>ashmem_area</h4><p>用来描述一块共享内存。</p><ul><li><p>name：共享内存的名称。每一个块共享内存的名称都以dev/ashmem开头，如果没有指定名称，则名字就是dev/ashmem。</p></li><li><p>unpinned_list：描述一个解锁内存块列表。ashmem将整个共享内存分为多个小内存块，小内存块有两种状态，一种是锁定，即正在使用，不可回收；一种是解锁，解锁状态下的小内存块可以被回收。这个列表下的地址块互不相交，且按地址值从大到小排列。</p></li><li><p>file：指向临时文件系统tmpfs中的一个文件。</p></li><li><p>size：描述临时文件的大小。这个大小也就是匿名共享内存的大小。</p><blockquote><p>tmpfs：Linux提供的一种临时文件系统，其中的文件存在于内存中，不在硬盘上，也会挂载在文件系统中，不过断电即消失。可以用df命令查看。</p></blockquote></li><li><p>prot_mask：访问保护位。默认是exec|read|write。</p></li></ul><h4 id="ashmem-range"><a href="#ashmem-range" class="headerlink" title="ashmem_range"></a>ashmem_range</h4><p>用来描述一小块解锁内存块。</p><ul><li>unpinned：用于链入宿主共享内存的unpinned列表中。</li><li>lru：用于链入全局LRU链表ashmem_lru_list中，这个链表会在回收的时候用到。</li><li>pgstart/pgend：描述这一小块内存的开始和结束地址，单位是页。</li><li>purged：描述是否已经被回收。</li></ul><h4 id="ashmem-pin"><a href="#ashmem-pin" class="headerlink" title="ashmem_pin"></a>ashmem_pin</h4><p>作为IO控制命令ASHMEM_PIN和ASHMEM_UNPIN的参数，也即解锁和锁定时的参数。成员变量描述了起始地址和长度。</p><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>驱动程序以misc设备文件的形式存在文件系统中，而每块共享内存则以tmpfs的形式存在文件系统中。</p><ul><li><p>创建两个slab缓冲区分配器，分别用来分配ashmem_area和ashmem_range。</p><blockquote><p>slab：缓冲区分配器。虚拟内存的内存分配是以页为单位，但有些小对象所需的内存空间比页大小要小得多，为其分配一整个页是效率低下的。slab分配器持有以页为单位的内存空间，而通过它可以将页再次分割，分配给小对象。</p></blockquote></li><li><p>调用misc_register注册一个匿名共享内存设备。ashmem被当做一个misc设备，以设备文件/dev/ashmem的形式放在文件系统中。应用程序通过它来访问Ashmem驱动程序。</p><blockquote><p>misc：意为杂乱的设备。Linux中专门用来管理特殊设备或者不知如何分类的设备，这些设备公用一个主设备号，以次设备号区分。</p></blockquote><p>ashmem_misc结构体正是ashmem设备文件在内存中的表现形式，其指定了设备文件名字、设备文件操作表（包含打开、关闭、映射、IO控制）。</p></li><li><p>向操作系统内存管理机制注册一个内存回收函数ashmem_shrinker。当系统内存不足时会调用这个函数，这会回收处于解锁状态的小内存块。</p></li></ul><h3 id="设备文件打开"><a href="#设备文件打开" class="headerlink" title="设备文件打开"></a>设备文件打开</h3><p>根据ashmem_misc中的操作表的指定，对设备文件的操作最终都会映射到ashmem.c中实现的各个函数。打开对应了ashmem_open。用户进程调用的是open，返回一个file，而ashmem_open中的参数file就是这个返回值。</p><ul><li>从slab缓冲区中分配一个ashmem_area结构体。做unpinned_list、名称（/dev/ashmem/<name>）、访问保护位的初始化。然后将其赋给file的private_data。</name></li></ul><h3 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h3><p>当应用程序调用mmap将<strong>设备文件/dev/ashmem</strong>映射到地址空间时，Ashmem会创建一个临时文件。</p><ul><li>根据文件操作表的映射关系，mmap会被映射到ashmem_mmap，传进来的参数是打开时返回的file，和一个描述内存的结构体vma。</li><li>首先从file中获取ashmem_area。并做大小、访问标记位的判断。</li><li>创建临时文件。调用shmem_file_setup在临时文件tmpfs中创建一个临时文件，打开的文件保存在ashmem_area的成员变量file中。</li><li>将vma的映射文件设置为刚刚创建出来的临时文件，设置其内存操作表，主要改变其缺页方法fault为shmem_fault。其逻辑为：缺页时，先查页面缓冲区，如果有，则映射到缺页的虚拟地址；如果没有到换出设备中查，查到了添入缓冲区；如果再没有，分配新的物理页面，添入缓冲区。通过这种方式，则使用同一个file结构体，就是同一个页面缓冲区，可以映射到不同的vma中，实现了共享内存。</li></ul><h3 id="锁定和解锁"><a href="#锁定和解锁" class="headerlink" title="锁定和解锁"></a>锁定和解锁</h3><p>锁定和解锁主要是通过IO控制命令ASHMEM_PIN和ASHMEM_UNPIN来实现解锁。最终映射到ashmem_pin和ashmem_unpin。</p><ul><li>解锁：宿主共享内存的unpinned_list，按地址从大到小排列，而且互不相交，所以在解锁的时候，要查询顺序，判断是否相交，如果相交要合并；以此得出pgstart和pgend，然后通过slab分配一个ashmem_range结构体。再添入宿主列表unpinned_list和全局列表ashmem_lru_list中。</li><li>锁定：从unpinned_list和ashmem_lru_list中删除。</li></ul><h3 id="回收"><a href="#回收" class="headerlink" title="回收"></a>回收</h3><p>回收函数ashmem_shrink在驱动程序初始化时就注册好了，当操作系统内存不足时，会调用这个函数，回收。回收的对象就是全局列表ashmem_lru_list中的解锁内存块。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li>Android系统提供Ashmem匿名共享内存机制，提供驱动程序，驱动程序以misc设备文件的形式存在系统中。命名为/dev/ashmem。</li><li>用户进程通过文件操作/dev/ashmem设备文件，访问Ashmem驱动程序，如打开、关闭、映射等等。</li><li>每块匿名共享内存对应一个临时文件，临时文件基于tmpfs实现，文件则相当于内存空间，其具有页面缓冲区等等内存结构。多个应用进程访问时，使用的是同一个页面缓冲区，以此实现了内存共享。</li><li>匿名共享内存对自己做了切割，将空闲的内存区域描述出来，注册给操作系统，当操作系统内存不足时，会回收这部分内存。</li></ul>]]></content>
-      
-      
-      
-    </entry>
-    
-    <entry>
-      <title></title>
-      <link href="/2019/04/15/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%BA%8C%E2%80%94%E2%80%94Runtime%E3%80%81Native%E3%80%81Framework/"/>
-      <url>/2019/04/15/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%BA%8C%E2%80%94%E2%80%94Runtime%E3%80%81Native%E3%80%81Framework/</url>
+      <title>Ashmem匿名共享内存二——Runtime、Native、Framework</title>
+      <link href="/2019/04/11/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%BA%8C%E2%80%94%E2%80%94Runtime%E3%80%81Native%E3%80%81Framework/"/>
+      <url>/2019/04/11/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%BA%8C%E2%80%94%E2%80%94Runtime%E3%80%81Native%E3%80%81Framework/</url>
       
         <content type="html"><![CDATA[<h1 id="Ashmem匿名共享内存二——Runtime、Native、Framework"><a href="#Ashmem匿名共享内存二——Runtime、Native、Framework" class="headerlink" title="Ashmem匿名共享内存二——Runtime、Native、Framework"></a>Ashmem匿名共享内存二——Runtime、Native、Framework</h1><h2 id="Runtime中的cutils"><a href="#Runtime中的cutils" class="headerlink" title="Runtime中的cutils"></a>Runtime中的cutils</h2><p>提供了五个C接口来访问驱动程序。分别是<code>ashmem_create_region</code>创建、<code>ashmem_pin_region</code>锁定、<code>ashmem_unpin_region</code>解锁、<code>ashmem_set_prot_region</code>设置保护位、<code>ashmem_get_size_region</code>设置大小。</p><blockquote><p>region：区域</p></blockquote><h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><ul><li>调用文件访问系统调用open，打开设备文件/dev/ashmem。会调用ashmem_open，创建一个ashmem_area结构体，返回一个文件描述符fd。</li><li>通过IO控制命令，为fd对应的匿名共享内存设置名字。</li><li>通过IO控制命令，给fd对应的匿名共享内存设置大小。</li><li>返回fd。</li></ul><h3 id="pin-unpin"><a href="#pin-unpin" class="headerlink" title="pin/unpin"></a>pin/unpin</h3><p>通过IO控制命令，锁定或解锁一小块内存空间，传递的参数是fd、ashmem_pin。</p><h3 id="set-prot"><a href="#set-prot" class="headerlink" title="set prot"></a>set prot</h3><p>通过IO控制命令，设置访问保护位。</p><p>###　get size</p><p>通过IO控制命令，获取匿名共享内存的大小。</p><h2 id="Native层C-接口"><a href="#Native层C-接口" class="headerlink" title="Native层C++接口"></a>Native层C++接口</h2><p>主要提供两个类，MemoryHeapBase和MemoryBase。</p><p>MemoryHeapBase是整块内存的共享，MemoryBase是共享部分内存。</p><p>这两个类都代表的是Service组件，其实就是一套写好的Binder。</p><h3 id="MemoryHeapBase"><a href="#MemoryHeapBase" class="headerlink" title="MemoryHeapBase"></a>MemoryHeapBase</h3><h4 id="IMemoryHeap"><a href="#IMemoryHeap" class="headerlink" title="IMemoryHeap"></a>IMemoryHeap</h4><p>IMemoryHeap类定义了接口，主要有四个函数：<code>getHeapID</code>获取文件描述符、<code>getBase</code>获取映射地址、<code>getSize</code>获取大小、<code>getFlags</code>获取保护位。</p><p>在Binder通讯中，Client端和Server端用的是同一个接口。</p><h4 id="Server端"><a href="#Server端" class="headerlink" title="Server端"></a>Server端</h4><p>通过Binder进行通讯，也就是Binder本地对象。</p><h5 id="BnMemoryHeap"><a href="#BnMemoryHeap" class="headerlink" title="BnMemoryHeap"></a>BnMemoryHeap</h5><p>只有onTransact，做中转。转到MemroyHeapBase。</p><h5 id="MemoryHeapBase-1"><a href="#MemoryHeapBase-1" class="headerlink" title="MemoryHeapBase"></a>MemoryHeapBase</h5><p>实现了IMemoryHeap接口。本身成员变量有：mFD文件描述符、mSize大小、mBase映射地址、mFlags访问保护位。</p><h6 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h6><ul><li>调用ashmem_create_region，创建匿名共享内存，返回文件描述符，也就是mFD。这里会传入名字、大小、访问保护位。</li><li>mapfd，将内存块映射到本进程的地址空间。这里会调用到ashmem_mmap，会创建一个临时文件，即代表匿名共享内存。返回的值是映射的地址mBase。</li></ul><h6 id="接口函数"><a href="#接口函数" class="headerlink" title="接口函数"></a>接口函数</h6><p>就是返回成员变量</p><h4 id="Client端"><a href="#Client端" class="headerlink" title="Client端"></a>Client端</h4><h5 id="BpMemroyHeap"><a href="#BpMemroyHeap" class="headerlink" title="BpMemroyHeap"></a>BpMemroyHeap</h5><p>实现了IMemoryHeap。当Client进程第一次访问这个代理对象时，才会请求Server端返回匿名共享内存的信息。这个类在构造函数中只是赋初值，请求都是在接口实现中做的。</p><h6 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h6><ul><li>获取代理对象。Binder库为Client端维护了一个缓存，如果多个代理应用同个服务，返回的是同一个代理对象。如果代理对象已经存在，则返回，如果不存在，则创建返回。这个代理对象只记录了信息，并没有具体的实现。</li><li>请求。以代理对象的InterfaceDescriptor，通过Binder驱动，发送给服务端的对象，返回整个共享内存的信息，保存在本地。</li></ul><h6 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h6><ul><li>请求得到的共享内存的信息，调用mmap映射到本进程的空间。</li></ul><h6 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h6><ul><li>请求得到的共享内存的信息中有mBase，即一个映射地址，通过该地址则可以访问。</li></ul><h3 id="MemoryBase"><a href="#MemoryBase" class="headerlink" title="MemoryBase"></a>MemoryBase</h3><p>就是基于MemeoryHeapBase，加了偏移量和长度。其内部持有一个MemoryHeapBase实例，而其本身描述的就是这片内存的一小部分，以偏移量和长度表示。</p><h4 id="Server端-1"><a href="#Server端-1" class="headerlink" title="Server端"></a>Server端</h4><h5 id="IMemory"><a href="#IMemory" class="headerlink" title="IMemory"></a>IMemory</h5><p>定义了MemoryBase的服务接口，有四个接口函数<code>getMemory</code>获取内部的MemoryHeapBase、<code>pointer</code>获取MemoryBase描述的一小段内存、<code>size</code>大小、<code>offset</code>偏移量。</p><ul><li>pointer：获取内部的mHeap，然后加上偏移量返回，则可以得到那部分内存。</li></ul><h5 id="MemoryBase-1"><a href="#MemoryBase-1" class="headerlink" title="MemoryBase"></a>MemoryBase</h5><ul><li>getMemory：设置好offset和size，返回heap。</li></ul><h4 id="Client端-1"><a href="#Client端-1" class="headerlink" title="Client端"></a>Client端</h4><h5 id="BpMemroy"><a href="#BpMemroy" class="headerlink" title="BpMemroy"></a>BpMemroy</h5><p>通过Binder和Server端通讯，可以获取mHeap和偏移量。则这个地址可以访问。</p><h2 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h2><p>Android对Ashmem共享内存提供的Java接口主要有一个类，即MemoryFile。</p><h3 id="MemoryFile"><a href="#MemoryFile" class="headerlink" title="MemoryFile"></a>MemoryFile</h3><p>封装了文件描述符、地址、保护位等等。</p><h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><p>有两种，一个是传入名称和长度，创建匿名共享内存，做映射。另一种是传入文件描述符，直接做映射。</p><p>一般情况下，Server端会用第一个构造函数；Client会用第二个构造函数。</p><h4 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h4><p>其他所有方法，包括read、write、getFileDescripter等等，都是调用了JNI，在JNI中使用cutils库提供的接口。</p><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>MemoryFile的通讯，也即其内部的fd的传递，还是通过Binder，当Client端请求Server端的时候，Server端返回一个fd，Client端会使用第二个构造函数，创建、映射，所以一切的访问就是通过共享内存了。</p><h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul><li><p>文件描述符都是通过Binder传递的，Server负责创建匿名共享内存、创建文件、完成映射，然后提供Binder服务，供Client获取文件描述符。Client获取文件描述符之后，再进行映射。接下来就可以通过映射出来的地址值访问了。</p></li><li><p>文件描述符只对本进程有效，但文件结构体只会有一个，多个文件描述符可以指向同一个文件结构体，文件结构体才真正代表着文件。所以Binder并不能直接传递文件描述符，而是在Client生成一个等价的文件描述符。</p><p>在传递文件描述符时，给Binder的协议是TYPE_FD，则Binder驱动在获取到Server端的文件描述符时，会先查到其对应的文件结构体，然后再查询目标进程中还没有使用的文件描述符，再将文件描述符和文件结构体关联，然后返回给Client端。</p></li></ul>]]></content>
       
       
+      <categories>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> Linux </tag>
+            
+            <tag> kernel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Ashmem匿名共享内存一——驱动程序</title>
+      <link href="/2019/04/10/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%B8%80%E2%80%94%E2%80%94%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/"/>
+      <url>/2019/04/10/Ashmem%E5%8C%BF%E5%90%8D%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E4%B8%80%E2%80%94%E2%80%94%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Ashmem匿名共享内存一——驱动程序"><a href="#Ashmem匿名共享内存一——驱动程序" class="headerlink" title="Ashmem匿名共享内存一——驱动程序"></a>Ashmem匿名共享内存一——驱动程序</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Ashmem，全称Anonymous  Shared Memory。匿名共享内存。</p><p>Ashmem匿名共享内存是Android系统实现的一种内存共享机制，用于IPC。与传统的Linux内存共享一样，Ashmem也是基于tmpfs实现的，不过Ashmem做了更为细致的内存管理，将整块共享内存切割，可动态回收，动态分配。</p><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><h4 id="ashmem-area"><a href="#ashmem-area" class="headerlink" title="ashmem_area"></a>ashmem_area</h4><p>用来描述一块共享内存。</p><ul><li><p>name：共享内存的名称。每一个块共享内存的名称都以dev/ashmem开头，如果没有指定名称，则名字就是dev/ashmem。</p></li><li><p>unpinned_list：描述一个解锁内存块列表。ashmem将整个共享内存分为多个小内存块，小内存块有两种状态，一种是锁定，即正在使用，不可回收；一种是解锁，解锁状态下的小内存块可以被回收。这个列表下的地址块互不相交，且按地址值从大到小排列。</p></li><li><p>file：指向临时文件系统tmpfs中的一个文件。</p></li><li><p>size：描述临时文件的大小。这个大小也就是匿名共享内存的大小。</p><blockquote><p>tmpfs：Linux提供的一种临时文件系统，其中的文件存在于内存中，不在硬盘上，也会挂载在文件系统中，不过断电即消失。可以用df命令查看。</p></blockquote></li><li><p>prot_mask：访问保护位。默认是exec|read|write。</p></li></ul><h4 id="ashmem-range"><a href="#ashmem-range" class="headerlink" title="ashmem_range"></a>ashmem_range</h4><p>用来描述一小块解锁内存块。</p><ul><li>unpinned：用于链入宿主共享内存的unpinned列表中。</li><li>lru：用于链入全局LRU链表ashmem_lru_list中，这个链表会在回收的时候用到。</li><li>pgstart/pgend：描述这一小块内存的开始和结束地址，单位是页。</li><li>purged：描述是否已经被回收。</li></ul><h4 id="ashmem-pin"><a href="#ashmem-pin" class="headerlink" title="ashmem_pin"></a>ashmem_pin</h4><p>作为IO控制命令ASHMEM_PIN和ASHMEM_UNPIN的参数，也即解锁和锁定时的参数。成员变量描述了起始地址和长度。</p><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>驱动程序以misc设备文件的形式存在文件系统中，而每块共享内存则以tmpfs的形式存在文件系统中。</p><ul><li><p>创建两个slab缓冲区分配器，分别用来分配ashmem_area和ashmem_range。</p><blockquote><p>slab：缓冲区分配器。虚拟内存的内存分配是以页为单位，但有些小对象所需的内存空间比页大小要小得多，为其分配一整个页是效率低下的。slab分配器持有以页为单位的内存空间，而通过它可以将页再次分割，分配给小对象。</p></blockquote></li><li><p>调用misc_register注册一个匿名共享内存设备。ashmem被当做一个misc设备，以设备文件/dev/ashmem的形式放在文件系统中。应用程序通过它来访问Ashmem驱动程序。</p><blockquote><p>misc：意为杂乱的设备。Linux中专门用来管理特殊设备或者不知如何分类的设备，这些设备公用一个主设备号，以次设备号区分。</p></blockquote><p>ashmem_misc结构体正是ashmem设备文件在内存中的表现形式，其指定了设备文件名字、设备文件操作表（包含打开、关闭、映射、IO控制）。</p></li><li><p>向操作系统内存管理机制注册一个内存回收函数ashmem_shrinker。当系统内存不足时会调用这个函数，这会回收处于解锁状态的小内存块。</p></li></ul><h3 id="设备文件打开"><a href="#设备文件打开" class="headerlink" title="设备文件打开"></a>设备文件打开</h3><p>根据ashmem_misc中的操作表的指定，对设备文件的操作最终都会映射到ashmem.c中实现的各个函数。打开对应了ashmem_open。用户进程调用的是open，返回一个file，而ashmem_open中的参数file就是这个返回值。</p><ul><li>从slab缓冲区中分配一个ashmem_area结构体。做unpinned_list、名称（/dev/ashmem/<name>）、访问保护位的初始化。然后将其赋给file的private_data。</name></li></ul><h3 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h3><p>当应用程序调用mmap将<strong>设备文件/dev/ashmem</strong>映射到地址空间时，Ashmem会创建一个临时文件。</p><ul><li>根据文件操作表的映射关系，mmap会被映射到ashmem_mmap，传进来的参数是打开时返回的file，和一个描述内存的结构体vma。</li><li>首先从file中获取ashmem_area。并做大小、访问标记位的判断。</li><li>创建临时文件。调用shmem_file_setup在临时文件tmpfs中创建一个临时文件，打开的文件保存在ashmem_area的成员变量file中。</li><li>将vma的映射文件设置为刚刚创建出来的临时文件，设置其内存操作表，主要改变其缺页方法fault为shmem_fault。其逻辑为：缺页时，先查页面缓冲区，如果有，则映射到缺页的虚拟地址；如果没有到换出设备中查，查到了添入缓冲区；如果再没有，分配新的物理页面，添入缓冲区。通过这种方式，则使用同一个file结构体，就是同一个页面缓冲区，可以映射到不同的vma中，实现了共享内存。</li></ul><h3 id="锁定和解锁"><a href="#锁定和解锁" class="headerlink" title="锁定和解锁"></a>锁定和解锁</h3><p>锁定和解锁主要是通过IO控制命令ASHMEM_PIN和ASHMEM_UNPIN来实现解锁。最终映射到ashmem_pin和ashmem_unpin。</p><ul><li>解锁：宿主共享内存的unpinned_list，按地址从大到小排列，而且互不相交，所以在解锁的时候，要查询顺序，判断是否相交，如果相交要合并；以此得出pgstart和pgend，然后通过slab分配一个ashmem_range结构体。再添入宿主列表unpinned_list和全局列表ashmem_lru_list中。</li><li>锁定：从unpinned_list和ashmem_lru_list中删除。</li></ul><h3 id="回收"><a href="#回收" class="headerlink" title="回收"></a>回收</h3><p>回收函数ashmem_shrink在驱动程序初始化时就注册好了，当操作系统内存不足时，会调用这个函数，回收。回收的对象就是全局列表ashmem_lru_list中的解锁内存块。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li>Android系统提供Ashmem匿名共享内存机制，提供驱动程序，驱动程序以misc设备文件的形式存在系统中。命名为/dev/ashmem。</li><li>用户进程通过文件操作/dev/ashmem设备文件，访问Ashmem驱动程序，如打开、关闭、映射等等。</li><li>每块匿名共享内存对应一个临时文件，临时文件基于tmpfs实现，文件则相当于内存空间，其具有页面缓冲区等等内存结构。多个应用进程访问时，使用的是同一个页面缓冲区，以此实现了内存共享。</li><li>匿名共享内存对自己做了切割，将空闲的内存区域描述出来，注册给操作系统，当操作系统内存不足时，会回收这部分内存。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> Linux </tag>
+            
+            <tag> kernel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Android Studio Gradle代理设置</title>
+      <link href="/2019/03/15/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/"/>
+      <url>/2019/03/15/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Android-Studio-Gradle代理设置"><a href="#Android-Studio-Gradle代理设置" class="headerlink" title="Android Studio Gradle代理设置"></a>Android Studio Gradle代理设置</h1><p>代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。</p><h3 id="http"><a href="#http" class="headerlink" title="http"></a>http</h3><p>编辑gradle.properties文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#systemProp.socks.proxyHost=127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.socks.proxyPort=1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#systemProp.https.proxyHost=127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.https.proxyPort=1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#systemProp.https.proxyHost=socks5://127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.https.proxyPort=1080</span></span><br></pre></td></tr></table></figure><h3 id="Socks"><a href="#Socks" class="headerlink" title="Socks"></a>Socks</h3><p>编辑gradle.properties文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080</span><br></pre></td></tr></table></figure><h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>个人第一次新建kotlin项目的时候，下载kotlin-compiler没挂代理真的不行，但是之后正常情况下打开，挂了代理真的不行！！有毒。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Android Studio </tag>
+            
+            <tag> Android </tag>
+            
+        </tags>
       
     </entry>
     
@@ -46,17 +103,6 @@
             <tag> 2018 </tag>
             
         </tags>
-      
-    </entry>
-    
-    <entry>
-      <title></title>
-      <link href="/2019/03/12/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/"/>
-      <url>/2019/03/12/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Android-Studio-Gradle代理设置"><a href="#Android-Studio-Gradle代理设置" class="headerlink" title="Android Studio Gradle代理设置"></a>Android Studio Gradle代理设置</h1><p>代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。</p><h3 id="http"><a href="#http" class="headerlink" title="http"></a>http</h3><p>编辑gradle.properties文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#systemProp.socks.proxyHost=127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.socks.proxyPort=1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#systemProp.https.proxyHost=127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.https.proxyPort=1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#systemProp.https.proxyHost=socks5://127.0.0.1</span></span><br><span class="line"><span class="comment">#systemProp.https.proxyPort=1080</span></span><br></pre></td></tr></table></figure><h3 id="Socks"><a href="#Socks" class="headerlink" title="Socks"></a>Socks</h3><p>编辑gradle.properties文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.gradle.jvmargs=-DsocksProxyHost=127.0.0.1 -DsocksProxyPort=1080</span><br></pre></td></tr></table></figure><h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>个人第一次新建kotlin项目的时候，下载kotlin-compiler没挂代理真的不行，但是之后正常情况下打开，挂了代理真的不行！！有毒。</p>]]></content>
-      
-      
       
     </entry>
     

@@ -22,7 +22,7 @@
     <meta name="description" content="����һ��Android����Ա��С��˼">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>四火的博客</title>
+    <title>Ashmem匿名共享内存二——Runtime、Native、Framework · 四火的博客</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -228,12 +228,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Fourfire&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Ashmem匿名共享内存二——Runtime、Native、Framework</a>
+            </div>
+    </div>
     
     <a class="home-link" href="/">Fourfire's Blog</a>
 </header>
@@ -245,24 +256,78 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Ashmem匿名共享内存二——Runtime、Native、Framework
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="kernel">kernel</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -363,124 +428,116 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/Zygote、System进程启动/">
-            
-                <span>Zygote、System进程启动</span>
-        </a>
-        <div class="abstract-content">
-            Zygote、System进程启动概述​    Zygote，翻译为中文是“受精卵”，它是Android系统中，所有Java进程的父进程，负责创建新进程。System进程，是Android系统中系统服务运行所在的进程，它负责创建、管理所有的系统服务，包括AMS、PackageManagerServer等等十分重要的服务，都运行在System进程中。
-​    Zygote和System进程的生命周期伴随整个系统，在系统启动时就会启动这两个进程，而直到系统关闭，它们才会被杀死。
-​    值得一提的是，在Android5.0之后，Zygote进程在系统中一共存在两个，这主要是为了适应新增加...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android系统">Android系统</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Zygote">Zygote</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="System">System</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="进程">进程</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/四火的置顶/">
-            
-                <span class="stick-top iconfont-archer">&#xe63d;</span>
-                
-                <span>四火的置顶</span>
-        </a>
-        <div class="abstract-content">
-            四火的置顶我叫陈钊燚，是华中科技大学软件学院的一名小学生，也是华中科技大学软件学院科创团队和启明学院联创团队Android组的一名小学生。现在主要做一些安卓开发、研究的事情。从大学入学就有开博客的想法，只是困于一开始水平不高，不敢丢人现眼，于是努力学习，这些天有了一些小想法和小总结，感觉有必要正式地记录下来，于是开了这个博客。
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Ashmem匿名共享内存二——Runtime、Native、Framework"><a href="#Ashmem匿名共享内存二——Runtime、Native、Framework" class="headerlink" title="Ashmem匿名共享内存二——Runtime、Native、Framework"></a>Ashmem匿名共享内存二——Runtime、Native、Framework</h1><h2 id="Runtime中的cutils"><a href="#Runtime中的cutils" class="headerlink" title="Runtime中的cutils"></a>Runtime中的cutils</h2><p>提供了五个C接口来访问驱动程序。分别是<code>ashmem_create_region</code>创建、<code>ashmem_pin_region</code>锁定、<code>ashmem_unpin_region</code>解锁、<code>ashmem_set_prot_region</code>设置保护位、<code>ashmem_get_size_region</code>设置大小。</p>
+<blockquote>
+<p>region：区域</p>
+</blockquote>
+<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><ul>
+<li>调用文件访问系统调用open，打开设备文件/dev/ashmem。会调用ashmem_open，创建一个ashmem_area结构体，返回一个文件描述符fd。</li>
+<li>通过IO控制命令，为fd对应的匿名共享内存设置名字。</li>
+<li>通过IO控制命令，给fd对应的匿名共享内存设置大小。</li>
+<li>返回fd。</li>
+</ul>
+<h3 id="pin-unpin"><a href="#pin-unpin" class="headerlink" title="pin/unpin"></a>pin/unpin</h3><p>通过IO控制命令，锁定或解锁一小块内存空间，传递的参数是fd、ashmem_pin。</p>
+<h3 id="set-prot"><a href="#set-prot" class="headerlink" title="set prot"></a>set prot</h3><p>通过IO控制命令，设置访问保护位。</p>
+<p>###　get size</p>
+<p>通过IO控制命令，获取匿名共享内存的大小。</p>
+<h2 id="Native层C-接口"><a href="#Native层C-接口" class="headerlink" title="Native层C++接口"></a>Native层C++接口</h2><p>主要提供两个类，MemoryHeapBase和MemoryBase。</p>
+<p>MemoryHeapBase是整块内存的共享，MemoryBase是共享部分内存。</p>
+<p>这两个类都代表的是Service组件，其实就是一套写好的Binder。</p>
+<h3 id="MemoryHeapBase"><a href="#MemoryHeapBase" class="headerlink" title="MemoryHeapBase"></a>MemoryHeapBase</h3><h4 id="IMemoryHeap"><a href="#IMemoryHeap" class="headerlink" title="IMemoryHeap"></a>IMemoryHeap</h4><p>IMemoryHeap类定义了接口，主要有四个函数：<code>getHeapID</code>获取文件描述符、<code>getBase</code>获取映射地址、<code>getSize</code>获取大小、<code>getFlags</code>获取保护位。</p>
+<p>在Binder通讯中，Client端和Server端用的是同一个接口。</p>
+<h4 id="Server端"><a href="#Server端" class="headerlink" title="Server端"></a>Server端</h4><p>通过Binder进行通讯，也就是Binder本地对象。</p>
+<h5 id="BnMemoryHeap"><a href="#BnMemoryHeap" class="headerlink" title="BnMemoryHeap"></a>BnMemoryHeap</h5><p>只有onTransact，做中转。转到MemroyHeapBase。</p>
+<h5 id="MemoryHeapBase-1"><a href="#MemoryHeapBase-1" class="headerlink" title="MemoryHeapBase"></a>MemoryHeapBase</h5><p>实现了IMemoryHeap接口。本身成员变量有：mFD文件描述符、mSize大小、mBase映射地址、mFlags访问保护位。</p>
+<h6 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h6><ul>
+<li>调用ashmem_create_region，创建匿名共享内存，返回文件描述符，也就是mFD。这里会传入名字、大小、访问保护位。</li>
+<li>mapfd，将内存块映射到本进程的地址空间。这里会调用到ashmem_mmap，会创建一个临时文件，即代表匿名共享内存。返回的值是映射的地址mBase。</li>
+</ul>
+<h6 id="接口函数"><a href="#接口函数" class="headerlink" title="接口函数"></a>接口函数</h6><p>就是返回成员变量</p>
+<h4 id="Client端"><a href="#Client端" class="headerlink" title="Client端"></a>Client端</h4><h5 id="BpMemroyHeap"><a href="#BpMemroyHeap" class="headerlink" title="BpMemroyHeap"></a>BpMemroyHeap</h5><p>实现了IMemoryHeap。当Client进程第一次访问这个代理对象时，才会请求Server端返回匿名共享内存的信息。这个类在构造函数中只是赋初值，请求都是在接口实现中做的。</p>
+<h6 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h6><ul>
+<li>获取代理对象。Binder库为Client端维护了一个缓存，如果多个代理应用同个服务，返回的是同一个代理对象。如果代理对象已经存在，则返回，如果不存在，则创建返回。这个代理对象只记录了信息，并没有具体的实现。</li>
+<li>请求。以代理对象的InterfaceDescriptor，通过Binder驱动，发送给服务端的对象，返回整个共享内存的信息，保存在本地。</li>
+</ul>
+<h6 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h6><ul>
+<li>请求得到的共享内存的信息，调用mmap映射到本进程的空间。</li>
+</ul>
+<h6 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h6><ul>
+<li>请求得到的共享内存的信息中有mBase，即一个映射地址，通过该地址则可以访问。</li>
+</ul>
+<h3 id="MemoryBase"><a href="#MemoryBase" class="headerlink" title="MemoryBase"></a>MemoryBase</h3><p>就是基于MemeoryHeapBase，加了偏移量和长度。其内部持有一个MemoryHeapBase实例，而其本身描述的就是这片内存的一小部分，以偏移量和长度表示。</p>
+<h4 id="Server端-1"><a href="#Server端-1" class="headerlink" title="Server端"></a>Server端</h4><h5 id="IMemory"><a href="#IMemory" class="headerlink" title="IMemory"></a>IMemory</h5><p>定义了MemoryBase的服务接口，有四个接口函数<code>getMemory</code>获取内部的MemoryHeapBase、<code>pointer</code>获取MemoryBase描述的一小段内存、<code>size</code>大小、<code>offset</code>偏移量。</p>
+<ul>
+<li>pointer：获取内部的mHeap，然后加上偏移量返回，则可以得到那部分内存。</li>
+</ul>
+<h5 id="MemoryBase-1"><a href="#MemoryBase-1" class="headerlink" title="MemoryBase"></a>MemoryBase</h5><ul>
+<li>getMemory：设置好offset和size，返回heap。</li>
+</ul>
+<h4 id="Client端-1"><a href="#Client端-1" class="headerlink" title="Client端"></a>Client端</h4><h5 id="BpMemroy"><a href="#BpMemroy" class="headerlink" title="BpMemroy"></a>BpMemroy</h5><p>通过Binder和Server端通讯，可以获取mHeap和偏移量。则这个地址可以访问。</p>
+<h2 id="Framework"><a href="#Framework" class="headerlink" title="Framework"></a>Framework</h2><p>Android对Ashmem共享内存提供的Java接口主要有一个类，即MemoryFile。</p>
+<h3 id="MemoryFile"><a href="#MemoryFile" class="headerlink" title="MemoryFile"></a>MemoryFile</h3><p>封装了文件描述符、地址、保护位等等。</p>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><p>有两种，一个是传入名称和长度，创建匿名共享内存，做映射。另一种是传入文件描述符，直接做映射。</p>
+<p>一般情况下，Server端会用第一个构造函数；Client会用第二个构造函数。</p>
+<h4 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h4><p>其他所有方法，包括read、write、getFileDescripter等等，都是调用了JNI，在JNI中使用cutils库提供的接口。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>MemoryFile的通讯，也即其内部的fd的传递，还是通过Binder，当Client端请求Server端的时候，Server端返回一个fd，Client端会使用第二个构造函数，创建、映射，所以一切的访问就是通过共享内存了。</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>文件描述符都是通过Binder传递的，Server负责创建匿名共享内存、创建文件、完成映射，然后提供Binder服务，供Client获取文件描述符。Client获取文件描述符之后，再进行映射。接下来就可以通过映射出来的地址值访问了。</p>
+</li>
+<li><p>文件描述符只对本进程有效，但文件结构体只会有一个，多个文件描述符可以指向同一个文件结构体，文件结构体才真正代表着文件。所以Binder并不能直接传递文件描述符，而是在Client生成一个等价的文件描述符。</p>
+<p>在传递文件描述符时，给Binder的协议是TYPE_FD，则Binder驱动在获取到Server端的文件描述符时，会先查到其对应的文件结构体，然后再查询目标进程中还没有使用的文件描述符，再将文件描述符和文件结构体关联，然后返回给Client端。</p>
+</li>
+</ul>
 
-主要内容
-Android开发记录
-Android源码学习：主要以最新的API28为分析对象，如有不同版本，会在博文开头说明。
-计算机知识记录，包括一些课程中、自学中的感受。
-其他杂七杂八
-
-
-声明此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="置顶">置顶</a>
-    
-</div>
-            
-        </div>
     </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/跳出小世界/">
-            
-                <span>跳出小世界</span>
-        </a>
-        <div class="abstract-content">
-            VPS梯子架设教程程序员入门必修课，番羽土啬hhhh。这篇教程教你从0搭梯子
-需要用到的工具和平台有：钱、VPS主机、shadowsocks
-原理
-简单讲讲关于墙的原理。我们进行网络访问时，将域名，比如www.baidu.com 通过一层层发向更高级的主机，进行解析成为IP地址（类似127.0.0.1这样的格式），再根据IP发送到真正需要发送的服务器，由服务器返回你需要的数据。
-而提供上层网络服务的节点（ISP）是可以控制的，在CN范围内的网络，都受到GFW的控制，GFW是The Great Fire Wall of China的简写，意指“中国网络防火墙”(字面意为“中国防火长城”)，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="shadowsocks">shadowsocks</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="翻墙">翻墙</a>
-    
-</div>
-            
-        </div>
-    </article>
+    <!-- license  -->
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">上一篇</div>
+                <a href="/2019/04/10/Ashmem匿名共享内存一——驱动程序/" title="Ashmem匿名共享内存一——驱动程序">
+                    <div class="prevTitle">Ashmem匿名共享内存一——驱动程序</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "0untM36zHX5BGt0ypBuOh5wf-gzGzoHsz",
+        appKey: "zDy3BxJq25NtYp3fHrLh54dh",
+        placeholder: "说点什么呀~ヾﾉ≧∀≦)o",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -561,6 +618,24 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ashmem匿名共享内存二——Runtime、Native、Framework"><span class="toc-number">1.</span> <span class="toc-text">Ashmem匿名共享内存二——Runtime、Native、Framework</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Runtime中的cutils"><span class="toc-number">1.1.</span> <span class="toc-text">Runtime中的cutils</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#create"><span class="toc-number">1.1.1.</span> <span class="toc-text">create</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pin-unpin"><span class="toc-number">1.1.2.</span> <span class="toc-text">pin/unpin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-prot"><span class="toc-number">1.1.3.</span> <span class="toc-text">set prot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Native层C-接口"><span class="toc-number">1.2.</span> <span class="toc-text">Native层C++接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MemoryHeapBase"><span class="toc-number">1.2.1.</span> <span class="toc-text">MemoryHeapBase</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IMemoryHeap"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">IMemoryHeap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Server端"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">Server端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BnMemoryHeap"><span class="toc-number">1.2.1.2.1.</span> <span class="toc-text">BnMemoryHeap</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MemoryHeapBase-1"><span class="toc-number">1.2.1.2.2.</span> <span class="toc-text">MemoryHeapBase</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#构造函数"><span class="toc-number">1.2.1.2.2.1.</span> <span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#接口函数"><span class="toc-number">1.2.1.2.2.2.</span> <span class="toc-text">接口函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client端"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">Client端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BpMemroyHeap"><span class="toc-number">1.2.1.3.1.</span> <span class="toc-text">BpMemroyHeap</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#请求"><span class="toc-number">1.2.1.3.1.1.</span> <span class="toc-text">请求</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#映射"><span class="toc-number">1.2.1.3.1.2.</span> <span class="toc-text">映射</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#访问"><span class="toc-number">1.2.1.3.1.3.</span> <span class="toc-text">访问</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MemoryBase"><span class="toc-number">1.2.2.</span> <span class="toc-text">MemoryBase</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Server端-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Server端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IMemory"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">IMemory</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MemoryBase-1"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">MemoryBase</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client端-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">Client端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#BpMemroy"><span class="toc-number">1.2.2.2.1.</span> <span class="toc-text">BpMemroy</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Framework"><span class="toc-number">1.3.</span> <span class="toc-text">Framework</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MemoryFile"><span class="toc-number">1.3.1.</span> <span class="toc-text">MemoryFile</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构造方法"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他方法"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">其他方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结-1"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -935,6 +1010,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>

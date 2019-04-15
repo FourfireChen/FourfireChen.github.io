@@ -371,38 +371,9 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2019/04/15/Ashmem匿名共享内存一——驱动程序/">
+        <a class="abstract-title" href="/2019/04/11/Ashmem匿名共享内存二——Runtime、Native、Framework/">
             
-                <span>[Untitled Post]</span>
-        </a>
-        <div class="abstract-content">
-            Ashmem匿名共享内存一——驱动程序概述Ashmem，全称Anonymous  Shared Memory。匿名共享内存。
-Ashmem匿名共享内存是Android系统实现的一种内存共享机制，用于IPC。与传统的Linux内存共享一样，Ashmem也是基于tmpfs实现的，不过Ashmem做了更为细致的内存管理，将整块共享内存切割，可动态回收，动态分配。
-数据结构ashmem_area用来描述一块共享内存。
-
-name：共享内存的名称。每一个块共享内存的名称都以dev/ashmem开头，如果没有指定名称，则名字就是dev/ashmem。
-
-unpinned_list：描述一个解锁内存块...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/15</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/04/15/Ashmem匿名共享内存二——Runtime、Native、Framework/">
-            
-                <span>[Untitled Post]</span>
+                <span>Ashmem匿名共享内存二——Runtime、Native、Framework</span>
         </a>
         <div class="abstract-content">
             Ashmem匿名共享内存二——Runtime、Native、FrameworkRuntime中的cutils提供了五个C接口来访问驱动程序。分别是ashmem_create_region创建、ashmem_pin_region锁定、ashmem_unpin_region解锁、ashmem_set_prot_region设置保护位、ashmem_get_size_region设置大小。
@@ -416,9 +387,91 @@ create
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/15</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/11</span>
             </div>
             <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="kernel">kernel</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/04/10/Ashmem匿名共享内存一——驱动程序/">
+            
+                <span>Ashmem匿名共享内存一——驱动程序</span>
+        </a>
+        <div class="abstract-content">
+            Ashmem匿名共享内存一——驱动程序概述Ashmem，全称Anonymous  Shared Memory。匿名共享内存。
+Ashmem匿名共享内存是Android系统实现的一种内存共享机制，用于IPC。与传统的Linux内存共享一样，Ashmem也是基于tmpfs实现的，不过Ashmem做了更为细致的内存管理，将整块共享内存切割，可动态回收，动态分配。
+数据结构ashmem_area用来描述一块共享内存。
+
+name：共享内存的名称。每一个块共享内存的名称都以dev/ashmem开头，如果没有指定名称，则名字就是dev/ashmem。
+
+unpinned_list：描述一个解锁内存块...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/10</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="kernel">kernel</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/15/Android Studio Gradle代理设置/">
+            
+                <span>Android Studio Gradle代理设置</span>
+        </a>
+        <div class="abstract-content">
+            Android Studio Gradle代理设置代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。
+http编辑gradle.properties文件
+12345678#systemProp.socks.proxyHost=127.0.0.1#systemProp.socks.proxyPort=1080#systemProp.https.proxyHost=127.0.0.1#systemProp.https.proxyPort=1080#systemProp.https.proxyHost=socks5://127.0.0.1#sy...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+</div>
             
         </div>
     </article>
@@ -456,31 +509,6 @@ create
         <a class="post-tag" href="javascript:void(0);" data-tags="2018">2018</a>
     
 </div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/12/Android Studio Gradle代理设置/">
-            
-                <span>[Untitled Post]</span>
-        </a>
-        <div class="abstract-content">
-            Android Studio Gradle代理设置代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。
-http编辑gradle.properties文件
-12345678#systemProp.socks.proxyHost=127.0.0.1#systemProp.socks.proxyPort=1080#systemProp.https.proxyHost=127.0.0.1#systemProp.https.proxyPort=1080#systemProp.https.proxyHost=socks5://127.0.0.1#sy...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/12</span>
-            </div>
-            <!-- tags  -->
             
         </div>
     </article>
@@ -893,6 +921,36 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         总数 : 11
@@ -910,40 +968,46 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
     
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/Ashmem匿名共享内存二——Runtime、Native、Framework/">Ashmem匿名共享内存二——Runtime、Native、Framework</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2019/04/10/Ashmem匿名共享内存一——驱动程序/">Ashmem匿名共享内存一——驱动程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href="/2019/03/15/Android Studio Gradle代理设置/">Android Studio Gradle代理设置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/四火的置顶/">四火的置顶</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href="/2019/04/15/Ashmem匿名共享内存一——驱动程序/">[Untitled Post]</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href="/2019/04/15/Ashmem匿名共享内存二——Runtime、Native、Framework/">[Untitled Post]</a>
         </li>
     
     
@@ -966,31 +1030,12 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
         </ul>
     
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href="/2019/03/12/Android Studio Gradle代理设置/">[Untitled Post]</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
         </li>
     
     
@@ -1005,11 +1050,6 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -1031,7 +1071,13 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1050,8 +1096,6 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
     
@@ -1095,6 +1139,8 @@ jsonContent:
     <div class="sidebar-categories-name">
     
         <span class="sidebar-category-name" data-categories="总结"><span class="iconfont-archer">&#xe60a;</span>总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
