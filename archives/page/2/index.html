@@ -371,6 +371,212 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">
+            
+                <span>操作系统学习简记八——同步互斥</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记八——同步互斥目标在允许并发执行的同时，保证一些操作是原子操作。
+概念互斥一个进程占用资源，其它资源就必须等待
+死锁循环等待
+饥饿进程轮流占用资源，一个资源一直得不到资源
+临界区需要保证进程互斥的区域
+进入区即将进入临界区的区域，需要在此处做互斥处理
+退出区临界区结束的区域，需要做锁释放
+访问规则
+空闲则入
+忙则等待：临界区有进程了，就不能进入
+有限等待：不能无限等待
+让权等待（可选）：暂时不能进入临界区的进程，应该释放CPU
+
+实现方法禁用中断没有中断，没有上下文切换，没有并发。但会导致中断没有处理，一切中断都会延迟到中断被启用之后才会处理。这个一般由体系结构提供指令来...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">
+            
+                <span>操作系统学习简记七——处理机调度</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记七——处理机调度概念处理机调度
+从就绪队列中挑选下一个占用CPU运行的进程；
+
+从多个可用CPU中挑选就绪进程可以使用的CPU资源。
+
+
+调度程序挑选进程和CPU的内核函数，内容包括：
+
+调度策略
+调度时机
+
+调度时机运行调度程序的条件状态发生变化时
+非抢占系统当前进程主动放弃
+
+有进程从运行切换到等待；
+有进程退出
+
+可抢占系统
+中断服务程序响应完成
+当前进程被抢占，有两种情况
+时间片用完
+进程从等待切换到就绪
+
+
+
+调度策略如何从就绪队列中选择下一个执行进程
+考核指标如何判断一个调度算法好坏？
+通常情况下进程在CPU计算和IO操作之间交替，基于此，衡量标准有几种：
+
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/14/操作系统学习简记五——线程基础/">
+            
+                <span>操作系统学习简记五——线程基础</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记五——线程基础目标需要一组实体，满足：
+
+比进程更加轻量级；
+
+实体之间可以并发执行；
+
+实体之间共享相同的地址空间。
+
+定义进程中的一条执行流程。
+表示线程控制块（TCB）
+包含的信息：主要是状态记录信息，如PC、SP、状态等等，但这些资源本身是属于进程的。
+进程与线程二者比较
+
+进程是资源分配单位，线程是CPU调度单位；
+进程拥有完整资源平台，线程只独享部分资源；
+二者都有就绪、阻塞、执行三种状态，同样具有状态间的转换；
+线程能减少并发执行的时间和空间开销
+创建、终止时间短；
+切换快；
+统一进程内共享资源，通讯不用通过内核。
+
+
+
+实现一般有三种实现方式，不同的操作系...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/14/操作系统学习简记六——进程管理/">
+            
+                <span>操作系统学习简记六——进程管理</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记六——进程管理上下文切换
+暂停当前运行进程，从运行状态变成其他状态；
+调度另一个进程从就绪状态变为运行状态。
+
+进程创建Unix进程创建：fork/exec
+fork将一个进程复制为两个
+  parent(old PID), child(new PID)
+
+exec用新程序重写当前进程的内存（常用于fork后，为新进程做加载执行）
+  PID没有改变
+
+
+系统初始化的进程ucore中，系统初始化执行proc_init()函数，这个函数会创建：
+
+IdleProc空闲进程：如果系统处于空闲状态，会执行空闲进程。这种进程的优先级是最低的。
+InitProc初始化进程。
+
+fo...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/2019/02/13/操作系统学习简记四——进程基础/">
             
                 <span>操作系统学习简记四——进程基础</span>
@@ -621,159 +827,6 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
         <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/01/19/沉浸式状态栏/">
-            
-                <span>沉浸式状态栏简记</span>
-        </a>
-        <div class="abstract-content">
-            沉浸式状态栏此经验只针对API21，即Android5.0以上的适配。
-最关键的地方在于style.xml文件中的几个属性的配置。
-123&lt;item name="android:windowTranslucentStatus"&gt;true&lt;/item&gt;&lt;item name="android:windowLightStatusBar" tools:targetApi="m"&gt;true&lt;/item&gt;&lt;item name="android:statusBarColor"&gt;#00FFFFFF&lt;/item&gt;
-
-statusBar...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="沉浸式状态栏">沉浸式状态栏</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Pipe_vs_eventfd/">
-            
-                <span>两种IPC方式 Pipe vs eventfd</span>
-        </a>
-        <div class="abstract-content">
-            两种IPC方式 Pipe vs eventfd四火想专门对比这两种IPC方式的原因是，这些天在看Android的消息处理机制，书上的源码用的是老版本的Android，使用的IPC是管道，但最新版本的AOSP中，消息处理机制使用的IPC方式已经改为eventfd了。好奇心激发我去了解了一下，有必要记录下来。
-pipe管道管道是最原始最基本的IPC机制，用于在进程之间完成数据传递。管道的特点非常鲜明：管道的数据传输是单向的，只能一端写一端读，所以它也采用了两个文件描述符引用，一个表示读端一个表示写端。
-对管道进行读写实质上是对内核空间中的一片区域进行读写，管道是由内核管理的一个缓冲区，相当于...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="IPC">IPC</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android消息处理机制">Android消息处理机制</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Linux_IO简记/">
-            
-                <span>Linux I/O简记</span>
-        </a>
-        <div class="abstract-content">
-            Linux I/O简记缓存IOLinux默认的IO操作都是缓存IO，数据从源出发，不会被直接传送到目的，而是要经过内核，通过这种方式保证了内核对IO操作的可控。内核为IO提供了一个数据缓冲区，数据从源出发，先被拷贝到内核的缓冲区中，然后才从缓冲区拷贝到目的进程的用户地址空间。
-IO模式Linux为IO提供了5种方案：
-
-阻塞IO
-非阻塞IO
-IO多路复用
-信号驱动IO
-异步IO
-
-1. 阻塞IOLinux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="I/O">I/O</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="多路复用">多路复用</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="poll、epoll、select">poll、epoll、select</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/Zygote、System进程启动/">
-            
-                <span>Zygote、System进程启动</span>
-        </a>
-        <div class="abstract-content">
-            Zygote、System进程启动概述​    Zygote，翻译为中文是“受精卵”，它是Android系统中，所有Java进程的父进程，负责创建新进程。System进程，是Android系统中系统服务运行所在的进程，它负责创建、管理所有的系统服务，包括AMS、PackageManagerServer等等十分重要的服务，都运行在System进程中。
-​    Zygote和System进程的生命周期伴随整个系统，在系统启动时就会启动这两个进程，而直到系统关闭，它们才会被杀死。
-​    值得一提的是，在Android5.0之后，Zygote进程在系统中一共存在两个，这主要是为了适应新增加...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android系统">Android系统</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Zygote">Zygote</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="System">System</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="进程">进程</a>
     
 </div>
             
@@ -1125,9 +1178,59 @@ IO多路复用
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 22
+        总数 : 26
         </div>
         <!-- search  -->
         
@@ -1162,6 +1265,16 @@ IO多路复用
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">View是怎么画出来的（四）——应用程序窗口</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
         </li>
     
@@ -1172,7 +1285,7 @@ IO多路复用
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
         </li>
     
     
@@ -1239,6 +1352,16 @@ IO多路复用
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
         </li>
     
@@ -1249,7 +1372,7 @@ IO多路复用
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
         </li>
     
     
@@ -1300,13 +1423,13 @@ IO多路复用
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1322,6 +1445,10 @@ IO多路复用
     
         <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
     
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
@@ -1334,9 +1461,7 @@ IO多路复用
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
     
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+        <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1375,13 +1500,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
     
-        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
-    
-        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
-    
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
         <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

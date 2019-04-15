@@ -467,9 +467,47 @@ http编辑gradle.properties文件
             
             <div class="abstract-tags">
     
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">
+            
+                <span>View是怎么画出来的（四）——应用程序窗口</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（四）——应用程序窗口关系概述
+Android中，四大组件与UI相关的就只有Activity，Activity在启动之后，会通过一个类型为Session的Binder对象与WMS维持链接，Activity窗口在WMS中对应的是WindowState，描述窗口信息。
+
+Android应用进程会通过WMS，请求SurfaceFlinger创建Layer，返回SurfaceLayer Binder对象。则WMS和应用进程中都会持有SurfaceLayer代理对象，都可以和Layer通讯。
+
+Activity和ContextImpl是互相持有的，互相可以调用对方。
+
+Act...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/13</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
     
 </div>
             
@@ -507,6 +545,115 @@ http编辑gradle.properties文件
         <a class="post-tag" href="javascript:void(0);" data-tags="总结">总结</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags="2018">2018</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">
+            
+                <span>View是怎么画出来的（三）——应用进程和SurfaceFlinger</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（三）——应用进程和SurfaceFlinger关系
+应用进程和SurfaceFlinger的通讯是通过Binder来实现的。每一个Application都和SurfaceFlinger有一个连接，这个连接通过一个类型为Client的Binder对象来描述，应用程序和SurfaceFlinger建立连接之后，会得到一个Client的代理对象，则可以使用这个代理对象了。
+
+应用进程和SurfaceFlinger通讯的时候，需要将UI元数据（元数据是指各种属性）发送给SufaceFlinger，这个数据量不是一个小数据，尽管Binder只有一次内存复制，但这个效率还是不...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">
+            
+                <span>View是怎么画出来的（二）——SurfaceFlinger</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（二）——SurfaceFlinger整体定义
+持有现状态和下一个状态，以及目前的Surface数组，和显示设备数组。以GraphicPlane对象来管理系统的显示设备。
+有三种线程：
+Binder线程：用来和用户进程通讯。
+控制台线程：用来和内核通讯，内核一旦需要显示设备做响应，则发送信息，通过该线程处理。
+UI渲染线程：专门负责渲染UI。如果没有渲染任务，则阻塞，有任务则通过gralloc和fb设备，渲染图形。
+
+
+
+启动
+Zygote进程启动System进程，SystemServer执行main方法，会加载android_servers库，调用init1函数，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">
+            
+                <span>View是怎么画出来的（一）——基础</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（一）——基础
+Android设备的显示屏被抽象为一个帧缓冲区（frame buffer,fb）。SurfaceFlinger通过向这个帧缓冲区写入内容来绘制界面。帧缓冲区的所有操作，在硬件抽象层被封装成了Gralloc模块。
+Linux内核启动的时候会创建一个类别为”graphics”，名字为”fb0”的设备，如果有多个显示屏，还会有fbx，这是一个设备文件，描述了显示屏。通过打开fb，获得一个内存，映射到本进程空间之后，对其进行写入，则可以将内容显示出来。
+init系统启动过程中，会启动ueventd进程，这个进程执行的程序和init是同一个，但由条件判断走了不...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/10</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
     
 </div>
             
@@ -632,216 +779,10 @@ http编辑gradle.properties文件
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">
-            
-                <span>操作系统学习简记八——同步互斥</span>
-        </a>
-        <div class="abstract-content">
-            操作系统学习简记八——同步互斥目标在允许并发执行的同时，保证一些操作是原子操作。
-概念互斥一个进程占用资源，其它资源就必须等待
-死锁循环等待
-饥饿进程轮流占用资源，一个资源一直得不到资源
-临界区需要保证进程互斥的区域
-进入区即将进入临界区的区域，需要在此处做互斥处理
-退出区临界区结束的区域，需要做锁释放
-访问规则
-空闲则入
-忙则等待：临界区有进程了，就不能进入
-有限等待：不能无限等待
-让权等待（可选）：暂时不能进入临界区的进程，应该释放CPU
-
-实现方法禁用中断没有中断，没有上下文切换，没有并发。但会导致中断没有处理，一切中断都会延迟到中断被启用之后才会处理。这个一般由体系结构提供指令来...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">
-            
-                <span>操作系统学习简记七——处理机调度</span>
-        </a>
-        <div class="abstract-content">
-            操作系统学习简记七——处理机调度概念处理机调度
-从就绪队列中挑选下一个占用CPU运行的进程；
-
-从多个可用CPU中挑选就绪进程可以使用的CPU资源。
-
-
-调度程序挑选进程和CPU的内核函数，内容包括：
-
-调度策略
-调度时机
-
-调度时机运行调度程序的条件状态发生变化时
-非抢占系统当前进程主动放弃
-
-有进程从运行切换到等待；
-有进程退出
-
-可抢占系统
-中断服务程序响应完成
-当前进程被抢占，有两种情况
-时间片用完
-进程从等待切换到就绪
-
-
-
-调度策略如何从就绪队列中选择下一个执行进程
-考核指标如何判断一个调度算法好坏？
-通常情况下进程在CPU计算和IO操作之间交替，基于此，衡量标准有几种：
-
-...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/02/14/操作系统学习简记六——进程管理/">
-            
-                <span>操作系统学习简记六——进程管理</span>
-        </a>
-        <div class="abstract-content">
-            操作系统学习简记六——进程管理上下文切换
-暂停当前运行进程，从运行状态变成其他状态；
-调度另一个进程从就绪状态变为运行状态。
-
-进程创建Unix进程创建：fork/exec
-fork将一个进程复制为两个
-  parent(old PID), child(new PID)
-
-exec用新程序重写当前进程的内存（常用于fork后，为新进程做加载执行）
-  PID没有改变
-
-
-系统初始化的进程ucore中，系统初始化执行proc_init()函数，这个函数会创建：
-
-IdleProc空闲进程：如果系统处于空闲状态，会执行空闲进程。这种进程的优先级是最低的。
-InitProc初始化进程。
-
-fo...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/02/14/操作系统学习简记五——线程基础/">
-            
-                <span>操作系统学习简记五——线程基础</span>
-        </a>
-        <div class="abstract-content">
-            操作系统学习简记五——线程基础目标需要一组实体，满足：
-
-比进程更加轻量级；
-
-实体之间可以并发执行；
-
-实体之间共享相同的地址空间。
-
-定义进程中的一条执行流程。
-表示线程控制块（TCB）
-包含的信息：主要是状态记录信息，如PC、SP、状态等等，但这些资源本身是属于进程的。
-进程与线程二者比较
-
-进程是资源分配单位，线程是CPU调度单位；
-进程拥有完整资源平台，线程只独享部分资源；
-二者都有就绪、阻塞、执行三种状态，同样具有状态间的转换；
-线程能减少并发执行的时间和空间开销
-创建、终止时间短；
-切换快；
-统一进程内共享资源，通讯不用通过内核。
-
-
-
-实现一般有三种实现方式，不同的操作系...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/page/2/">NEXT &#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="page-number" href="/archives/2019/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/page/2/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1183,9 +1124,59 @@ fo...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 22
+        总数 : 26
         </div>
         <!-- search  -->
         
@@ -1220,6 +1211,16 @@ fo...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">View是怎么画出来的（四）——应用程序窗口</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
         </li>
     
@@ -1230,7 +1231,7 @@ fo...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
         </li>
     
     
@@ -1297,6 +1298,16 @@ fo...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
         </li>
     
@@ -1307,7 +1318,7 @@ fo...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
         </li>
     
     
@@ -1358,13 +1369,13 @@ fo...
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1380,6 +1391,10 @@ fo...
     
         <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
     
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
@@ -1392,9 +1407,7 @@ fo...
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
     
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+        <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1433,13 +1446,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
     
-        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
-    
-        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
-    
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
         <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

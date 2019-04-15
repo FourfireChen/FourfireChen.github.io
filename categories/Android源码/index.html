@@ -449,6 +449,153 @@ unpinned_list：描述一个解锁内存块...
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">
+            
+                <span>View是怎么画出来的（四）——应用程序窗口</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（四）——应用程序窗口关系概述
+Android中，四大组件与UI相关的就只有Activity，Activity在启动之后，会通过一个类型为Session的Binder对象与WMS维持链接，Activity窗口在WMS中对应的是WindowState，描述窗口信息。
+
+Android应用进程会通过WMS，请求SurfaceFlinger创建Layer，返回SurfaceLayer Binder对象。则WMS和应用进程中都会持有SurfaceLayer代理对象，都可以和Layer通讯。
+
+Activity和ContextImpl是互相持有的，互相可以调用对方。
+
+Act...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/13</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">
+            
+                <span>View是怎么画出来的（三）——应用进程和SurfaceFlinger</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（三）——应用进程和SurfaceFlinger关系
+应用进程和SurfaceFlinger的通讯是通过Binder来实现的。每一个Application都和SurfaceFlinger有一个连接，这个连接通过一个类型为Client的Binder对象来描述，应用程序和SurfaceFlinger建立连接之后，会得到一个Client的代理对象，则可以使用这个代理对象了。
+
+应用进程和SurfaceFlinger通讯的时候，需要将UI元数据（元数据是指各种属性）发送给SufaceFlinger，这个数据量不是一个小数据，尽管Binder只有一次内存复制，但这个效率还是不...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">
+            
+                <span>View是怎么画出来的（二）——SurfaceFlinger</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（二）——SurfaceFlinger整体定义
+持有现状态和下一个状态，以及目前的Surface数组，和显示设备数组。以GraphicPlane对象来管理系统的显示设备。
+有三种线程：
+Binder线程：用来和用户进程通讯。
+控制台线程：用来和内核通讯，内核一旦需要显示设备做响应，则发送信息，通过该线程处理。
+UI渲染线程：专门负责渲染UI。如果没有渲染任务，则阻塞，有任务则通过gralloc和fb设备，渲染图形。
+
+
+
+启动
+Zygote进程启动System进程，SystemServer执行main方法，会加载android_servers库，调用init1函数，...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">
+            
+                <span>View是怎么画出来的（一）——基础</span>
+        </a>
+        <div class="abstract-content">
+            View是怎么画出来的（一）——基础
+Android设备的显示屏被抽象为一个帧缓冲区（frame buffer,fb）。SurfaceFlinger通过向这个帧缓冲区写入内容来绘制界面。帧缓冲区的所有操作，在硬件抽象层被封装成了Gralloc模块。
+Linux内核启动的时候会创建一个类别为”graphics”，名字为”fb0”的设备，如果有多个显示屏，还会有fbx，这是一个设备文件，描述了显示屏。通过打开fb，获得一个内存，映射到本进程空间之后，对其进行写入，则可以将内容显示出来。
+init系统启动过程中，会启动ueventd进程，这个进程执行的程序和init是同一个，但由条件判断走了不...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/10</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/2018/10/19/Zygote、System进程启动/">
             
                 <span>Zygote、System进程启动</span>
@@ -823,9 +970,59 @@ unpinned_list：描述一个解锁内存块...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 22
+        总数 : 26
         </div>
         <!-- search  -->
         
@@ -860,6 +1057,16 @@ unpinned_list：描述一个解锁内存块...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">View是怎么画出来的（四）——应用程序窗口</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
         </li>
     
@@ -870,7 +1077,7 @@ unpinned_list：描述一个解锁内存块...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
         </li>
     
     
@@ -937,6 +1144,16 @@ unpinned_list：描述一个解锁内存块...
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
         </li>
     
@@ -947,7 +1164,7 @@ unpinned_list：描述一个解锁内存块...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
         </li>
     
     
@@ -998,13 +1215,13 @@ unpinned_list：描述一个解锁内存块...
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1020,6 +1237,10 @@ unpinned_list：描述一个解锁内存块...
     
         <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
     
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
@@ -1032,9 +1253,7 @@ unpinned_list：描述一个解锁内存块...
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
     
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+        <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1073,13 +1292,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
     
-        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
-    
-        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
-    
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
         <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
