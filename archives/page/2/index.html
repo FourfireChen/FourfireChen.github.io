@@ -371,16 +371,390 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/跳出小世界/">
+        <a class="abstract-title" href="/2019/02/13/操作系统学习简记四——进程基础/">
             
-                <span>跳出小世界</span>
+                <span>操作系统学习简记四——进程基础</span>
         </a>
         <div class="abstract-content">
-            VPS梯子架设教程程序员入门必修课，番羽土啬hhhh。这篇教程教你从0搭梯子
-需要用到的工具和平台有：钱、VPS主机、shadowsocks
-原理
-简单讲讲关于墙的原理。我们进行网络访问时，将域名，比如www.baidu.com 通过一层层发向更高级的主机，进行解析成为IP地址（类似127.0.0.1这样的格式），再根据IP发送到真正需要发送的服务器，由服务器返回你需要的数据。
-而提供上层网络服务的节点（ISP）是可以控制的，在CN范围内的网络，都受到GFW的控制，GFW是The Great Fire Wall of China的简写，意指“中国网络防火墙”(字面意为“中国防火长城”)，...
+            操作系统学习简记四——进程基础基本概念进程的组成包含了正在运行的一个程序的所有状态信息
+
+程序指令；
+数据；
+程序计数器，指示下一条指令；
+
+通用寄存器、堆栈；
+
+系统资源（如打开的文件）；
+
+进程的特点
+动态性；
+
+并发性；
+  注：并发与并行不同。时间粒度不同。并发是指一段时间内有多个进程同时运行；并行是指在一个时刻有多个进程运行，是需要多核才能实现的。
+
+独立性：通过页表做管理，使得不同进程之间互补影响；
+
+制约性：访问共享资源或同步而产生的互相制约的关系。
+
+
+进程的描述进程控制块（Process Control Block, PCB）
+操作系统为每个进程维护了一个PCB，描述了...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/13</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">
+            
+                <span>操作系统学习简记三——虚拟内存</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记三——虚拟内存基础起因
+需要更大、更快、更便宜的存储器
+
+存储器有很明显的层次结构，交由程序员管理太过复杂，由操作系统统一管理更加合理
+
+
+技术发展
+覆盖技术：程序员手动管理，只把需要的指令和数据放在内存中。
+交换技术：自动管理，把暂时不运行的程序放到硬盘中，但需要多次倒换，开销不小。
+虚拟存储技术：基于分段、分页
+
+覆盖技术原理将逻辑按照自身逻辑，分为互相独立的若干个模块以及一个常驻模块。常驻模块负责装卸独立模块，模块在不同时间使用同一个内存区。
+缺点
+程序员管理复杂
+覆盖模块之间的频繁切换，其实是以时间换空间
+
+交换技术原理多个进程同时存在时，由操作系统进行管理，把等...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/11/操作系统学习简记二——内存/">
+            
+                <span>操作系统学习简记二——内存基础</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记二——内存基础内存层次结构从上到下
+
+寄存器
+Ln缓存
+主存（物理内存）
+硬盘（包括虚拟内存）
+
+内存管理的目标
+抽象：简单的逻辑地址空间，相当于一个大数组
+保护：隔离不同进程
+共享：安全可靠有效的进程间数据交互
+虚拟化：虚拟化出更多的内存空间
+
+地址空间定义
+物理地址空间：硬件
+逻辑地址空间：应用程序拥有的内存范围
+MMU：用于分页机制，位于CPU中，缓存了逻辑地址和物理地址的映射关系。完整的映射关系储存在内存中，MMU是为了加快CPU对逻辑地址和物理地址转换时的速度。
+
+逻辑地址生成
+编译：-&gt;.s文件，汇编语言
+汇编：-&gt;.o文件，机器指令。把宏定义以及...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">
+            
+                <span>操作系统学习简记一——启动、系统调用、中断、异常</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记一——启动、系统调用、中断、异常启动启动过程
+BIOS程序被储存在闪存中，计算机加电后会自动从BIOS加载程序到一段固定的内存空间并执行。
+BIOS启动后先进行硬件检测，然后去硬盘里找到Bootloader（Bootloader是负责启动真正的OS的程序），将其加载进一段固定的内存空间并执行。Bootloader一般放在硬盘的第一个主引导分区。
+Bootloader找到OS在硬盘中的分区，并将OS加载入内存，然后将指令寄存器跳给OS所在的内存地址，也就是把操作权交出去。
+
+发展过程
+BIOS：固话到主板上的程序，完成最基础的功能
+只能引导固定的一个分区；
+MBR：支持多分...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/10</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">
+            
+                <span>我的Linux安装之旅（二）——Arch安装</span>
+        </a>
+        <div class="abstract-content">
+            我的Linux安装之旅（二）——Arch安装这里还是要特别感谢wd老哥的Arch安装教程。
+And，本文我只按照自己的安装路径写，具体其他问题，可以参考上面的安装教程
+启动盘制作在ArchLinux官网上下载archlinux-**-x86_64.iso这个文件，然后写入事先准备好的U盘。Linux下可以用WoeUSB，Windows下可以用Rufus。
+进入U盘下的Linux首先进入BIOS下设置好启动顺序，把USB调到第一位。后进入U盘中写入的系统，等待加载完毕。
+联网
+有线网：如果路由器支持DHCP的话，可以插上网线后执行dhcpcd命令
+
+无线网：最坑的地方来了，但这里还问题不大...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">
+            
+                <span>我的Linux安装之旅（一）——扯淡</span>
+        </a>
+        <div class="abstract-content">
+            我的Linux安装之旅（一）——扯淡​    说起我的Linux之旅，讲道理并不怎么愉快。。。四火对Linux很感兴趣，但在Linux安装使用这条路上踩了太多坑，甚至曾经对Linux产生了心里阴影了。
+​    大一的时候总想试试，但限于知识水平有限，在安装时总会有很多愚蠢的做法，说起那时候甚至对最简单的概念，如挂载等，都没有理解其意义，可想而知会有很多愚蠢的做法。
+​    大一暑假想要换电脑，那时候总在犹豫是否要换Mac，那时候我其实特别想换Mac，但又不甘于没有好好用过Linux，最终买了我现在在用的联想Y7000，然而就是这台电脑，让我痛苦地、错误地体会着Linux。
+​    ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/01/19/沉浸式状态栏/">
+            
+                <span>沉浸式状态栏简记</span>
+        </a>
+        <div class="abstract-content">
+            沉浸式状态栏此经验只针对API21，即Android5.0以上的适配。
+最关键的地方在于style.xml文件中的几个属性的配置。
+123&lt;item name="android:windowTranslucentStatus"&gt;true&lt;/item&gt;&lt;item name="android:windowLightStatusBar" tools:targetApi="m"&gt;true&lt;/item&gt;&lt;item name="android:statusBarColor"&gt;#00FFFFFF&lt;/item&gt;
+
+statusBar...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="沉浸式状态栏">沉浸式状态栏</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2018/11/05/Pipe_vs_eventfd/">
+            
+                <span>两种IPC方式 Pipe vs eventfd</span>
+        </a>
+        <div class="abstract-content">
+            两种IPC方式 Pipe vs eventfd四火想专门对比这两种IPC方式的原因是，这些天在看Android的消息处理机制，书上的源码用的是老版本的Android，使用的IPC是管道，但最新版本的AOSP中，消息处理机制使用的IPC方式已经改为eventfd了。好奇心激发我去了解了一下，有必要记录下来。
+pipe管道管道是最原始最基本的IPC机制，用于在进程之间完成数据传递。管道的特点非常鲜明：管道的数据传输是单向的，只能一端写一端读，所以它也采用了两个文件描述符引用，一个表示读端一个表示写端。
+对管道进行读写实质上是对内核空间中的一片区域进行读写，管道是由内核管理的一个缓冲区，相当于...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="IPC">IPC</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android消息处理机制">Android消息处理机制</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2018/11/05/Linux_IO简记/">
+            
+                <span>Linux I/O简记</span>
+        </a>
+        <div class="abstract-content">
+            Linux I/O简记缓存IOLinux默认的IO操作都是缓存IO，数据从源出发，不会被直接传送到目的，而是要经过内核，通过这种方式保证了内核对IO操作的可控。内核为IO提供了一个数据缓冲区，数据从源出发，先被拷贝到内核的缓冲区中，然后才从缓冲区拷贝到目的进程的用户地址空间。
+IO模式Linux为IO提供了5种方案：
+
+阻塞IO
+非阻塞IO
+IO多路复用
+信号驱动IO
+异步IO
+
+1. 阻塞IOLinux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="I/O">I/O</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="多路复用">多路复用</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="poll、epoll、select">poll、epoll、select</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2018/10/19/Zygote、System进程启动/">
+            
+                <span>Zygote、System进程启动</span>
+        </a>
+        <div class="abstract-content">
+            Zygote、System进程启动概述​    Zygote，翻译为中文是“受精卵”，它是Android系统中，所有Java进程的父进程，负责创建新进程。System进程，是Android系统中系统服务运行所在的进程，它负责创建、管理所有的系统服务，包括AMS、PackageManagerServer等等十分重要的服务，都运行在System进程中。
+​    Zygote和System进程的生命周期伴随整个系统，在系统启动时就会启动这两个进程，而直到系统关闭，它们才会被杀死。
+​    值得一提的是，在Android5.0之后，Zygote进程在系统中一共存在两个，这主要是为了适应新增加...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -391,9 +765,15 @@
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="shadowsocks">shadowsocks</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="翻墙">翻墙</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android系统">Android系统</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Zygote">Zygote</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="System">System</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="进程">进程</a>
     
 </div>
             
@@ -403,7 +783,7 @@
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -608,9 +988,146 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 11
+        总数 : 22
         </div>
         <!-- search  -->
         
@@ -645,6 +1162,31 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
         </li>
     
@@ -659,7 +1201,12 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
         </li>
     
     
@@ -692,7 +1239,37 @@
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href="/2019/02/11/操作系统学习简记二——内存/">操作系统学习简记二——内存基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href="/2019/01/19/沉浸式状态栏/">沉浸式状态栏简记</a>
         </li>
     
     
@@ -706,12 +1283,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -728,13 +1300,13 @@
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
-    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -761,6 +1333,10 @@
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -804,6 +1380,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

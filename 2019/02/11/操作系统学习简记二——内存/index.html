@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="default">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Fourfire">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fourfire">
+    
+    <meta name="keywords" content="Fourfire,android,程序员">
+    
+    <meta name="description" content="����һ��Android����Ա��С��˼">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>操作系统学习简记二——内存基础 · 四火的博客</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/fourfire_favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search","hits_empty":"没找到欸: ${query}","hits_stats":"已找到${hits} 个结果"}')
+
+            var algolia = {
+                applicationID: '7JTFU16QXL',
+                apiKey: '17592eabbc3b2279fce953bff97d7554',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?bd53931417400badc07d884468bb6e8e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Fourfire&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">操作系统学习简记二——内存基础</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Fourfire's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            操作系统学习简记二——内存基础
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/02/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="操作系统学习简记二——内存基础"><a href="#操作系统学习简记二——内存基础" class="headerlink" title="操作系统学习简记二——内存基础"></a>操作系统学习简记二——内存基础</h1><h2 id="内存层次结构"><a href="#内存层次结构" class="headerlink" title="内存层次结构"></a>内存层次结构</h2><p>从上到下</p>
+<ul>
+<li>寄存器</li>
+<li>Ln缓存</li>
+<li>主存（物理内存）</li>
+<li>硬盘（包括虚拟内存）</li>
+</ul>
+<h2 id="内存管理的目标"><a href="#内存管理的目标" class="headerlink" title="内存管理的目标"></a>内存管理的目标</h2><ul>
+<li>抽象：简单的逻辑地址空间，相当于一个大数组</li>
+<li>保护：隔离不同进程</li>
+<li>共享：安全可靠有效的进程间数据交互</li>
+<li>虚拟化：虚拟化出更多的内存空间</li>
+</ul>
+<h2 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>物理地址空间：硬件</li>
+<li>逻辑地址空间：应用程序拥有的内存范围</li>
+<li>MMU：<strong>用于分页机制</strong>，位于CPU中，缓存了逻辑地址和物理地址的映射关系。完整的映射关系储存在内存中，MMU是为了加快CPU对逻辑地址和物理地址转换时的速度。</li>
+</ul>
+<h3 id="逻辑地址生成"><a href="#逻辑地址生成" class="headerlink" title="逻辑地址生成"></a>逻辑地址生成</h3><ul>
+<li>编译：-&gt;.s文件，汇编语言</li>
+<li>汇编：-&gt;.o文件，机器指令。把宏定义以及变量名等等转成一个段内的地址</li>
+<li>链接：-&gt;.exe，将互相依赖的.o文件合成（比如调用某些库）。原本的地址需要再次转换成同一个段内的。</li>
+<li>载入：将.exe文件加载进内存中，需要进行程序重定位。将.exe中的地址再次转换，成逻辑地址。</li>
+</ul>
+<h3 id="物理地址生成"><a href="#物理地址生成" class="headerlink" title="物理地址生成"></a>物理地址生成</h3><ul>
+<li>取逻辑地址（指令中指定）</li>
+<li>根据逻辑地址在MMU中查找对应的物理地址，如果查不到，去内存中查找。</li>
+<li>根据物理地址跟主存请求对应内容，主存从总线把内容返还CPU。</li>
+</ul>
+<h2 id="连续内存分配"><a href="#连续内存分配" class="headerlink" title="连续内存分配"></a>连续内存分配</h2><h3 id="内存碎片"><a href="#内存碎片" class="headerlink" title="内存碎片"></a>内存碎片</h3><ul>
+<li>外部碎片：没有分配给应用程序又无法使用的碎片地址空间</li>
+<li>内部碎片：已经分配给应用程序但无法使用的碎片地址空间</li>
+</ul>
+<h3 id="动态分配"><a href="#动态分配" class="headerlink" title="动态分配"></a>动态分配</h3><ul>
+<li><p>第一匹配分配（首次分配）：使用第一个能满足要求的内存空闲块</p>
+<ul>
+<li><p>对空闲块按地址排序</p>
+</li>
+<li><p>容易产生外部碎片</p>
+</li>
+</ul>
+</li>
+<li><p>最优匹配分配：找到最适合的，也即使用和需求大小差距最小的空闲块</p>
+<ul>
+<li><p>对空闲块按大小排序</p>
+</li>
+<li><p>可能出现很多微小外部碎片</p>
+</li>
+</ul>
+</li>
+<li><p>最差匹配分配：使用和需求大小差距最大的空闲块</p>
+<ul>
+<li>对空闲块按大小排序</li>
+<li>容易破碎大的空闲块，导致大分区难以被分配</li>
+</ul>
+</li>
+</ul>
+<h3 id="碎片整理"><a href="#碎片整理" class="headerlink" title="碎片整理"></a>碎片整理</h3><ul>
+<li>压缩式：压缩、紧凑已使用的地址空间，把碎片空间往一个方向集中</li>
+<li>交换式：使用swap硬盘空间</li>
+</ul>
+<h3 id="伙伴系统"><a href="#伙伴系统" class="headerlink" title="伙伴系统"></a>伙伴系统</h3><ul>
+<li>可分配的分区大小只能是2的某次方</li>
+<li>需要的分区大小为2的某-1次方到2的某次方时，把整块分配给该进程</li>
+</ul>
+<p>这种处理方法可以减少碎片的空间</p>
+<h4 id="实现（Buddy-system）"><a href="#实现（Buddy-system）" class="headerlink" title="实现（Buddy system）"></a>实现（Buddy system）</h4><h5 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h5><ul>
+<li>由小到大找到最小的可用空间块；</li>
+<li>如果空闲块过大，二分，直到大于其二分之一。</li>
+</ul>
+<h5 id="释放"><a href="#释放" class="headerlink" title="释放"></a>释放</h5><ul>
+<li>把释放块放入空闲块数组；</li>
+<li>合并：<ul>
+<li>大小相同</li>
+<li>地址相邻</li>
+<li>低地址的块的起始地址必须是2的整数倍</li>
+</ul>
+</li>
+</ul>
+<h2 id="非连续内存分配"><a href="#非连续内存分配" class="headerlink" title="非连续内存分配"></a>非连续内存分配</h2><h3 id="为什么要有非连续内存分配"><a href="#为什么要有非连续内存分配" class="headerlink" title="为什么要有非连续内存分配"></a>为什么要有非连续内存分配</h3><ul>
+<li>连续内存存在比较大的缺点<ul>
+<li>利用率低</li>
+<li>碎片多</li>
+</ul>
+</li>
+<li>支持共享地址空间</li>
+<li>支持动态加载</li>
+</ul>
+<h3 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h3><p>现代操作系统使用比较少，80X86用的是这个</p>
+<h4 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h4><p>根据应用程序使用的不同作用的地址段，把地址段分散到多个物理地址空间。如堆、栈、程序数据等等。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><ul>
+<li><p>使用段访问机制，用段地址和偏移地址进行寻址，具体实现有两种：</p>
+<ul>
+<li>使用段寄存器和偏移寄存器；</li>
+<li>使用单地址，上部分是段地址，下部分是偏移地址</li>
+</ul>
+</li>
+<li><p>具体实现方案：</p>
+<ol>
+<li>根据段号去段表（由操作系统初始化设置）中查到该段的首地址和长度</li>
+<li>判断偏移地址是否在合理区间内（和长度对比）</li>
+<li>偏移地址和段的首地址加起来得到物理地址</li>
+</ol>
+</li>
+</ul>
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>现代操作系统使用比较多</p>
+<h4 id="想法-1"><a href="#想法-1" class="headerlink" title="想法"></a>想法</h4><p>划分物理内存至固定大小的<strong>帧</strong>（frame），划分逻辑地址空间到至和物理页帧相同大小的<strong>页</strong>（page）。</p>
+<p>这里注意称呼，<strong>物理内存上称为帧，逻辑空间上称为页</strong>。</p>
+<p>整体上和分段的想法类似，划分物理内存，但页帧大小固定。</p>
+<h4 id="物理地址（页帧）的计算"><a href="#物理地址（页帧）的计算" class="headerlink" title="物理地址（页帧）的计算"></a>物理地址（页帧）的计算</h4><p>以单地址表示为例，前F位为帧号（f），后S位为偏移地址（o）。因此2^S表示的是一个帧的大小，因而有：</p>
+<p><code>物理地址=2^S*f+o</code></p>
+<h4 id="逻辑地址（页）的计算"><a href="#逻辑地址（页）的计算" class="headerlink" title="逻辑地址（页）的计算"></a>逻辑地址（页）的计算</h4><p>计算公式与页帧相同，而且偏移地址和其真实对应的物理地址的偏移地址相同。</p>
+<p>不同的地方在于表示页号的位数和表示帧号的位数可以不同（帧大小和页大小相同），因为虚拟地址可以虚拟出比实际物理地址要大得多的空间。</p>
+<h4 id="页寻址机制"><a href="#页寻址机制" class="headerlink" title="页寻址机制"></a>页寻址机制</h4><ol>
+<li>根据<strong>页号</strong>在页表（由操作系统建立）中查到<strong>页帧号</strong></li>
+<li>结合偏移地址（同一个），可计算出逻辑地址和物理地址。</li>
+</ol>
+<h4 id="页表"><a href="#页表" class="headerlink" title="页表"></a>页表</h4><p><strong>每个应用程序对应一个页表，建立专属的逻辑地址到物理地址的映射关系集。</strong></p>
+<p>页表是一个大数组，其索引号是页号，对应的元素是某些标记位（可标记状态，如该页帧是否正在使用、页帧是否存在）和帧号的组合。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>访问一次内存单元要做2次内存访问<ul>
+<li>一次访问页表，获取帧号</li>
+<li>一次访问数据</li>
+</ul>
+</li>
+<li>页表可能非常大</li>
+<li>每个应用程序都有自己的页表</li>
+</ul>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><ul>
+<li>缓存</li>
+<li>多级间接访问</li>
+</ul>
+<h5 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h5><p>TLB，位于MMU中，也就是在CPU中，全称Translation Look-aside Buffer，缓存近期访问的页帧转换表项。</p>
+<p>每次访问内存时，先使用TLB，如果命中，访问速度很快；如果没有命中，只能去查页表，但就把查到的表项更新到TLB中。</p>
+<p><strong>TLB的命中率不会很低，因为在现代操作系统中，页大小一般是4K，这样就意味着4K的空间使用的是同一个页号/帧号，也即每4K个数据需要查一个新的页号，可以接受。同时，在程序设计时，尽量使程序具有局部性，增加TLB命中率。</strong></p>
+<h5 id="分级间接访问——分级"><a href="#分级间接访问——分级" class="headerlink" title="分级间接访问——分级"></a>分级间接访问——分级</h5><ul>
+<li><p>二级页表</p>
+<p>  页号分为两个，p1和p2，以p1为索引（index）在一级页表中找到元素，该值为二级页表的起始地址，再加p2得到帧号。</p>
+</li>
+<li><p>多级页表类似</p>
+</li>
+<li><p>需要多次访问导致有时间上的损耗</p>
+</li>
+<li><p>空间上有很大的节省，上级页表记录的只是下级页表的首地址，如果映射关系存在，理论上来说还比不分级需要的空间更大，但有很多的映射关系是不存在的，就不需要下级页表，直接节省大段的空间。</p>
+</li>
+</ul>
+<h5 id="分级间接访问——反向页表"><a href="#分级间接访问——反向页表" class="headerlink" title="分级间接访问——反向页表"></a>分级间接访问——反向页表</h5><p>分级页表仍然存在大地址问题，其占用空间直接由逻辑地址大小决定，反向页表要解决的是以物理地址大小决定页映射关系的存储。</p>
+<p>目前cpu比较少使用反向页表</p>
+<ul>
+<li>主要思想：以页帧来索引页</li>
+<li>基于页寄存器的方案<ul>
+<li>使用一个页寄存器，与页表相反，即用帧号为索引，页号为元素</li>
+<li>要实现的是以页号查帧号，非常麻烦</li>
+</ul>
+</li>
+<li>基于关联内存的方案</li>
+<li>基于hash查找的方案：以哈系计算，将页号映射到帧号。</li>
+</ul>
+<h3 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h3><p>结合段式和页式</p>
+<ul>
+<li>在段式存储的基础上，给每个段加一级页表；</li>
+</ul>
+<h4 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h4><p>每个进程对应一个段表，段表中的各种段，对应一个页表，页表再对应物理地址。</p>
+<h4 id="进程内存共享"><a href="#进程内存共享" class="headerlink" title="进程内存共享"></a>进程内存共享</h4><p>基于段页式可以简便实现内存共享，可以开辟一个共享段，不同进程的共享段指向同一个页表。</p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">下一篇</div>
+                <a href="/2019/02/12/操作系统学习简记三——虚拟内存/" title="操作系统学习简记三——虚拟内存">
+                    <div class="nextTitle">操作系统学习简记三——虚拟内存</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">上一篇</div>
+                <a href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/" title="操作系统学习简记一——启动、系统调用、中断、异常">
+                    <div class="prevTitle">操作系统学习简记一——启动、系统调用、中断、异常</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "0untM36zHX5BGt0ypBuOh5wf-gzGzoHsz",
+        appKey: "zDy3BxJq25NtYp3fHrLh54dh",
+        placeholder: "说点什么呀~ヾﾉ≧∀≦)o",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:1215638092@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title="qq">
+                  
+                  <img class="profile-qr" src="/intro/qq.jpg">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#操作系统学习简记二——内存基础"><span class="toc-number">1.</span> <span class="toc-text">操作系统学习简记二——内存基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存层次结构"><span class="toc-number">1.1.</span> <span class="toc-text">内存层次结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存管理的目标"><span class="toc-number">1.2.</span> <span class="toc-text">内存管理的目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#地址空间"><span class="toc-number">1.3.</span> <span class="toc-text">地址空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">1.3.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑地址生成"><span class="toc-number">1.3.2.</span> <span class="toc-text">逻辑地址生成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#物理地址生成"><span class="toc-number">1.3.3.</span> <span class="toc-text">物理地址生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连续内存分配"><span class="toc-number">1.4.</span> <span class="toc-text">连续内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存碎片"><span class="toc-number">1.4.1.</span> <span class="toc-text">内存碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态分配"><span class="toc-number">1.4.2.</span> <span class="toc-text">动态分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#碎片整理"><span class="toc-number">1.4.3.</span> <span class="toc-text">碎片整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伙伴系统"><span class="toc-number">1.4.4.</span> <span class="toc-text">伙伴系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现（Buddy-system）"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">实现（Buddy system）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分配"><span class="toc-number">1.4.4.1.1.</span> <span class="toc-text">分配</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#释放"><span class="toc-number">1.4.4.1.2.</span> <span class="toc-text">释放</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非连续内存分配"><span class="toc-number">1.5.</span> <span class="toc-text">非连续内存分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要有非连续内存分配"><span class="toc-number">1.5.1.</span> <span class="toc-text">为什么要有非连续内存分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分段"><span class="toc-number">1.5.2.</span> <span class="toc-text">分段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#想法"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">想法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分页"><span class="toc-number">1.5.3.</span> <span class="toc-text">分页</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#想法-1"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">想法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#物理地址（页帧）的计算"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">物理地址（页帧）的计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑地址（页）的计算"><span class="toc-number">1.5.3.3.</span> <span class="toc-text">逻辑地址（页）的计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#页寻址机制"><span class="toc-number">1.5.3.4.</span> <span class="toc-text">页寻址机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#页表"><span class="toc-number">1.5.3.5.</span> <span class="toc-text">页表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-number">1.5.3.6.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化"><span class="toc-number">1.5.3.7.</span> <span class="toc-text">优化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存"><span class="toc-number">1.5.3.7.1.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分级间接访问——分级"><span class="toc-number">1.5.3.7.2.</span> <span class="toc-text">分级间接访问——分级</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分级间接访问——反向页表"><span class="toc-number">1.5.3.7.3.</span> <span class="toc-text">分级间接访问——反向页表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#段页式"><span class="toc-number">1.5.4.</span> <span class="toc-text">段页式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现-1"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程内存共享"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">进程内存共享</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">归档</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">标签</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">类别</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        总数 : 22
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/Ashmem匿名共享内存二——Runtime、Native、Framework/">Ashmem匿名共享内存二——Runtime、Native、Framework</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2019/04/10/Ashmem匿名共享内存一——驱动程序/">Ashmem匿名共享内存一——驱动程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href="/2019/03/15/Android Studio Gradle代理设置/">Android Studio Gradle代理设置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/四火的置顶/">四火的置顶</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href="/2019/03/12/2018下学期学期总结/">2018年下半学期学期总结</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href="/2019/02/11/操作系统学习简记二——内存/">操作系统学习简记二——内存基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href="/2019/01/19/沉浸式状态栏/">沉浸式状态栏简记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/跳出小世界/">跳出小世界</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
+        <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
+    
+        <span class="sidebar-tag-name" data-tags="多路复用"><span class="iconfont-archer">&#xe606;</span>多路复用</span>
+    
+        <span class="sidebar-tag-name" data-tags="poll、epoll、select"><span class="iconfont-archer">&#xe606;</span>poll、epoll、select</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC"><span class="iconfont-archer">&#xe606;</span>IPC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android消息处理机制"><span class="iconfont-archer">&#xe606;</span>Android消息处理机制</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
+    
+        <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
+    
+        <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zygote"><span class="iconfont-archer">&#xe606;</span>Zygote</span>
+    
+        <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
+    
+        <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="总结"><span class="iconfont-archer">&#xe60a;</span>总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
+    
+        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div>
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fourfire"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

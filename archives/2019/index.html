@@ -467,9 +467,9 @@ http编辑gradle.properties文件
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
     
 </div>
             
@@ -519,24 +519,45 @@ http编辑gradle.properties文件
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">
+        <a class="abstract-title" href="/2019/02/27/操作系统学习简记十——文件/">
             
-                <span>我的Linux安装之旅（二）——Arch安装</span>
+                <span>操作系统学习简记十——文件</span>
         </a>
         <div class="abstract-content">
-            我的Linux安装之旅（二）——Arch安装这里还是要特别感谢wd老哥的Arch安装教程。
-And，本文我只按照自己的安装路径写，具体其他问题，可以参考上面的安装教程
-启动盘制作在ArchLinux官网上下载archlinux-**-x86_64.iso这个文件，然后写入事先准备好的U盘。Linux下可以用WoeUSB，Windows下可以用Rufus。
-进入U盘下的Linux首先进入BIOS下设置好启动顺序，把USB调到第一位。后进入U盘中写入的系统，等待加载完毕。
-联网
-有线网：如果路由器支持DHCP的话，可以插上网线后执行dhcpcd命令
+            操作系统学习简记十——文件定义
+文件系统：操作系统用来管理持久性数据的子系统，提供存储和访问功能。
+文件：文件系统的基本单位。由文件名标识。存储时分文件头和文件内容，文件头会存储本文件的属性，如大小、位置、命名等等。
 
-无线网：最坑的地方来了，但这里还问题不大...
+文件系统功能
+分配文件磁盘空间
+管理文件块
+管理空闲空间
+分配
+
+
+管理文件集合：抽象化
+定位
+命名
+文件系统结构：组织方式
+
+
+数据的可靠和安全
+
+文件描述符定义指打开的文件在内存中存储的相应信息，存储在内核的打开文件表中。一个进程一个打开文件表
+内容
+文件指针：最近一次读写位置。
+
+文件打开计数：最后一个进程关闭时，要把文件关闭
+
+文件的磁盘位置
+访问权限
+
+文件的用...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/27</span>
             </div>
             <!-- tags  -->
             
@@ -544,7 +565,7 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
         <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
     
 </div>
             
@@ -557,20 +578,46 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">
+        <a class="abstract-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">
             
-                <span>我的Linux安装之旅（一）——扯淡</span>
+                <span>操作系统学习简记九——进程间通讯</span>
         </a>
         <div class="abstract-content">
-            我的Linux安装之旅（一）——扯淡​    说起我的Linux之旅，讲道理并不怎么愉快。。。四火对Linux很感兴趣，但在Linux安装使用这条路上踩了太多坑，甚至曾经对Linux产生了心里阴影了。
-​    大一的时候总想试试，但限于知识水平有限，在安装时总会有很多愚蠢的做法，说起那时候甚至对最简单的概念，如挂载等，都没有理解其意义，可想而知会有很多愚蠢的做法。
-​    大一暑假想要换电脑，那时候总在犹豫是否要换Mac，那时候我其实特别想换Mac，但又不甘于没有好好用过Linux，最终买了我现在在用的联想Y7000，然而就是这台电脑，让我痛苦地、错误地体会着Linux。
-​    ...
+            操作系统学习简记九——进程间通讯方式直接通讯在非内核空间建立通讯链路
+
+需要对双方进行命名
+建立通讯链路
+
+间接通讯通过内核空间做通讯
+
+需要内核消息队列
+
+通讯链路
+0容量：发送方必须等待接受方。
+有限容量：满时，发送方等待。
+无线容量：不需要等待。
+
+机制信号如ctrl+C就是使用信号，信号包括SIGHILL,SIGSTOP
+接收处理
+捕获：信号处理函数被调用
+忽略：如进程中止时
+屏蔽：暂时不接收，如登录时
+
+实现
+注册：将处理程序告知内核
+发送：发送给内核
+处理：内核找到处理程序，执行处理程序
+
+管道基于内存文件
+
+利用子进程fork时继承文件描述符或命名文件
+
+创建：返回一个文件...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/26</span>
             </div>
             <!-- tags  -->
             
@@ -578,7 +625,213 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
         <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">
+            
+                <span>操作系统学习简记八——同步互斥</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记八——同步互斥目标在允许并发执行的同时，保证一些操作是原子操作。
+概念互斥一个进程占用资源，其它资源就必须等待
+死锁循环等待
+饥饿进程轮流占用资源，一个资源一直得不到资源
+临界区需要保证进程互斥的区域
+进入区即将进入临界区的区域，需要在此处做互斥处理
+退出区临界区结束的区域，需要做锁释放
+访问规则
+空闲则入
+忙则等待：临界区有进程了，就不能进入
+有限等待：不能无限等待
+让权等待（可选）：暂时不能进入临界区的进程，应该释放CPU
+
+实现方法禁用中断没有中断，没有上下文切换，没有并发。但会导致中断没有处理，一切中断都会延迟到中断被启用之后才会处理。这个一般由体系结构提供指令来...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">
+            
+                <span>操作系统学习简记七——处理机调度</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记七——处理机调度概念处理机调度
+从就绪队列中挑选下一个占用CPU运行的进程；
+
+从多个可用CPU中挑选就绪进程可以使用的CPU资源。
+
+
+调度程序挑选进程和CPU的内核函数，内容包括：
+
+调度策略
+调度时机
+
+调度时机运行调度程序的条件状态发生变化时
+非抢占系统当前进程主动放弃
+
+有进程从运行切换到等待；
+有进程退出
+
+可抢占系统
+中断服务程序响应完成
+当前进程被抢占，有两种情况
+时间片用完
+进程从等待切换到就绪
+
+
+
+调度策略如何从就绪队列中选择下一个执行进程
+考核指标如何判断一个调度算法好坏？
+通常情况下进程在CPU计算和IO操作之间交替，基于此，衡量标准有几种：
+
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/14/操作系统学习简记六——进程管理/">
+            
+                <span>操作系统学习简记六——进程管理</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记六——进程管理上下文切换
+暂停当前运行进程，从运行状态变成其他状态；
+调度另一个进程从就绪状态变为运行状态。
+
+进程创建Unix进程创建：fork/exec
+fork将一个进程复制为两个
+  parent(old PID), child(new PID)
+
+exec用新程序重写当前进程的内存（常用于fork后，为新进程做加载执行）
+  PID没有改变
+
+
+系统初始化的进程ucore中，系统初始化执行proc_init()函数，这个函数会创建：
+
+IdleProc空闲进程：如果系统处于空闲状态，会执行空闲进程。这种进程的优先级是最低的。
+InitProc初始化进程。
+
+fo...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href="/2019/02/14/操作系统学习简记五——线程基础/">
+            
+                <span>操作系统学习简记五——线程基础</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记五——线程基础目标需要一组实体，满足：
+
+比进程更加轻量级；
+
+实体之间可以并发执行；
+
+实体之间共享相同的地址空间。
+
+定义进程中的一条执行流程。
+表示线程控制块（TCB）
+包含的信息：主要是状态记录信息，如PC、SP、状态等等，但这些资源本身是属于进程的。
+进程与线程二者比较
+
+进程是资源分配单位，线程是CPU调度单位；
+进程拥有完整资源平台，线程只独享部分资源；
+二者都有就绪、阻塞、执行三种状态，同样具有状态间的转换；
+线程能减少并发执行的时间和空间开销
+创建、终止时间短；
+切换快；
+统一进程内共享资源，通讯不用通过内核。
+
+
+
+实现一般有三种实现方式，不同的操作系...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
     
 </div>
             
@@ -586,6 +839,10 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     </article>
     
     <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/page/2/">NEXT &#62;</a>
+    </nav>
     
 </main>
             <!-- profile -->
@@ -789,9 +1046,146 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 11
+        总数 : 22
         </div>
         <!-- search  -->
         
@@ -826,6 +1220,31 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
         </li>
     
@@ -840,7 +1259,12 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
         </li>
     
     
@@ -873,7 +1297,37 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href="/2019/02/11/操作系统学习简记二——内存/">操作系统学习简记二——内存基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href="/2019/01/19/沉浸式状态栏/">沉浸式状态栏简记</a>
         </li>
     
     
@@ -887,12 +1341,7 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -909,13 +1358,13 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
-    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -942,6 +1391,10 @@ And，本文我只按照自己的安装路径写，具体其他问题，可以�
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -985,6 +1438,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
     
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
