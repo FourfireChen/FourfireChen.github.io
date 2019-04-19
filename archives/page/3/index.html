@@ -371,6 +371,53 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">
+            
+                <span>操作系统学习简记三——虚拟内存</span>
+        </a>
+        <div class="abstract-content">
+            操作系统学习简记三——虚拟内存基础起因
+需要更大、更快、更便宜的存储器
+
+存储器有很明显的层次结构，交由程序员管理太过复杂，由操作系统统一管理更加合理
+
+
+技术发展
+覆盖技术：程序员手动管理，只把需要的指令和数据放在内存中。
+交换技术：自动管理，把暂时不运行的程序放到硬盘中，但需要多次倒换，开销不小。
+虚拟存储技术：基于分段、分页
+
+覆盖技术原理将逻辑按照自身逻辑，分为互相独立的若干个模块以及一个常驻模块。常驻模块负责装卸独立模块，模块在不同时间使用同一个内存区。
+缺点
+程序员管理复杂
+覆盖模块之间的频繁切换，其实是以时间换空间
+
+交换技术原理多个进程同时存在时，由操作系统进行管理，把等...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/2019/02/11/操作系统学习简记二——内存/">
             
                 <span>操作系统学习简记二——内存基础</span>
@@ -720,45 +767,10 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/10/19/跳出小世界/">
-            
-                <span>跳出小世界</span>
-        </a>
-        <div class="abstract-content">
-            VPS梯子架设教程程序员入门必修课，番羽土啬hhhh。这篇教程教你从0搭梯子
-需要用到的工具和平台有：钱、VPS主机、shadowsocks
-原理
-简单讲讲关于墙的原理。我们进行网络访问时，将域名，比如www.baidu.com 通过一层层发向更高级的主机，进行解析成为IP地址（类似127.0.0.1这样的格式），再根据IP发送到真正需要发送的服务器，由服务器返回你需要的数据。
-而提供上层网络服务的节点（ISP）是可以控制的，在CN范围内的网络，都受到GFW的控制，GFW是The Great Fire Wall of China的简写，意指“中国网络防火墙”(字面意为“中国防火长城”)，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="shadowsocks">shadowsocks</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="翻墙">翻墙</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
+        <a class="extend prev" rel="prev" href="/archives/page/2/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/4/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1208,9 +1220,24 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 30
+        总数 : 31
         </div>
         <!-- search  -->
         
@@ -1227,6 +1254,11 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href="/2019/04/19/解决Jcenter依赖慢/">解决Jcenter依赖慢</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1270,7 +1302,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
         </li>
     
     
@@ -1285,7 +1317,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
         </li>
     
     
@@ -1300,7 +1332,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
         </li>
     
     
@@ -1315,7 +1347,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
         </li>
     
     
@@ -1339,7 +1371,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -1377,22 +1409,22 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
         </li>
     
     
@@ -1406,7 +1438,7 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
         </li>
     
     
@@ -1426,6 +1458,8 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
         <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gradle"><span class="iconfont-archer">&#xe606;</span>Gradle</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
@@ -1455,6 +1489,8 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
         <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
     
+        <span class="sidebar-tag-name" data-tags="jcenter"><span class="iconfont-archer">&#xe606;</span>jcenter</span>
+    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
@@ -1466,8 +1502,6 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
-    
-        <span class="sidebar-tag-name" data-tags="Gradle"><span class="iconfont-archer">&#xe606;</span>Gradle</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

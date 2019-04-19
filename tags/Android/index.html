@@ -371,17 +371,52 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/2019/04/19/解决Jcenter依赖慢/">
+            
+                <span>解决Jcenter依赖慢</span>
+        </a>
+        <div class="abstract-content">
+            解决Jcenter依赖慢Android Studio，对项目的依赖有更改，需要依赖到https://jcenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。
+No.1 https协议改为http协议修改项目根目录下的build.gradle文件：
+12345678910111213141516171819buildscript &#123;    repositories &#123;//        jcenter()        jcenter()&#123;url 'http://jcenter.bintray...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Gradle">Gradle</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="jcenter">jcenter</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/2019/04/19/解锁Gradle依赖下载新姿势/">
             
                 <span>解锁Gradle依赖下载新姿势</span>
         </a>
         <div class="abstract-content">
-            解锁Gradle依赖下载新姿势四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见Gradle代理。但是在这个情况下，我解锁了一个手动下载包的新姿势。
+            解锁Gradle依赖下载新姿势四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢。主要是访问https://jecenter.bintray.com都非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见[Gradle代理](http://fourfire.top/2019/03/15/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/)。但是在这个情况下，我解锁了一个手动下载包的新姿势。
 Gradle在更新的时候，在Android Studio中可以看到如下图。
 
-在这里可以看到其下载的包的资源链接。于是就可以手动下载啦。
-Win选手可以使用迅雷或者其他下载工具，而Linux选手当仁不让wget，当然了，一般情况下下载速度很慢是因为没挂代理，所以wget的时候也要proxychains一下。
-接下来将手动下载的jar包放入gradle本地...
+在这里可...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -698,47 +733,6 @@ Act...
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/12</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">
-            
-                <span>View是怎么画出来的（二）——SurfaceFlinger</span>
-        </a>
-        <div class="abstract-content">
-            View是怎么画出来的（二）——SurfaceFlinger整体定义
-持有现状态和下一个状态，以及目前的Surface数组，和显示设备数组。以GraphicPlane对象来管理系统的显示设备。
-有三种线程：
-Binder线程：用来和用户进程通讯。
-控制台线程：用来和内核通讯，内核一旦需要显示设备做响应，则发送信息，通过该线程处理。
-UI渲染线程：专门负责渲染UI。如果没有渲染任务，则阻塞，有任务则通过gralloc和fb设备，渲染图形。
-
-
-
-启动
-Zygote进程启动System进程，SystemServer执行main方法，会加载android_servers库，调用init1函数，...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/11</span>
             </div>
             <!-- tags  -->
             
@@ -1206,9 +1200,24 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 30
+        总数 : 31
         </div>
         <!-- search  -->
         
@@ -1225,6 +1234,11 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href="/2019/04/19/解决Jcenter依赖慢/">解决Jcenter依赖慢</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1268,7 +1282,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
         </li>
     
     
@@ -1283,7 +1297,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
         </li>
     
     
@@ -1298,7 +1312,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
         </li>
     
     
@@ -1313,7 +1327,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
         </li>
     
     
@@ -1337,7 +1351,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -1375,22 +1389,22 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
         </li>
     
     
@@ -1404,7 +1418,7 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
         </li>
     
     
@@ -1424,6 +1438,8 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
         <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gradle"><span class="iconfont-archer">&#xe606;</span>Gradle</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
@@ -1453,6 +1469,8 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
     
         <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
     
+        <span class="sidebar-tag-name" data-tags="jcenter"><span class="iconfont-archer">&#xe606;</span>jcenter</span>
+    
         <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
@@ -1464,8 +1482,6 @@ Zygote进程启动System进程，SystemServer执行main方法，会加载android
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
-    
-        <span class="sidebar-tag-name" data-tags="Gradle"><span class="iconfont-archer">&#xe606;</span>Gradle</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>

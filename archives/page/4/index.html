@@ -371,145 +371,29 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">
+        <a class="abstract-title" href="/2018/10/19/跳出小世界/">
             
-                <span>我的Linux安装之旅（二）——Arch安装</span>
+                <span>跳出小世界</span>
         </a>
         <div class="abstract-content">
-            我的Linux安装之旅（二）——Arch安装这里还是要特别感谢wd老哥的Arch安装教程。
-And，本文我只按照自己的安装路径写，具体其他问题，可以参考上面的安装教程
-启动盘制作在ArchLinux官网上下载archlinux-**-x86_64.iso这个文件，然后写入事先准备好的U盘。Linux下可以用WoeUSB，Windows下可以用Rufus。
-进入U盘下的Linux首先进入BIOS下设置好启动顺序，把USB调到第一位。后进入U盘中写入的系统，等待加载完毕。
-联网
-有线网：如果路由器支持DHCP的话，可以插上网线后执行dhcpcd命令
-
-无线网：最坑的地方来了，但这里还问题不大...
+            VPS梯子架设教程程序员入门必修课，番羽土啬hhhh。这篇教程教你从0搭梯子
+需要用到的工具和平台有：钱、VPS主机、shadowsocks
+原理
+简单讲讲关于墙的原理。我们进行网络访问时，将域名，比如www.baidu.com 通过一层层发向更高级的主机，进行解析成为IP地址（类似127.0.0.1这样的格式），再根据IP发送到真正需要发送的服务器，由服务器返回你需要的数据。
+而提供上层网络服务的节点（ISP）是可以控制的，在CN范围内的网络，都受到GFW的控制，GFW是The Great Fire Wall of China的简写，意指“中国网络防火墙”(字面意为“中国防火长城”)，...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/19</span>
             </div>
             <!-- tags  -->
             
             <div class="abstract-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="shadowsocks">shadowsocks</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">
-            
-                <span>我的Linux安装之旅（一）——扯淡</span>
-        </a>
-        <div class="abstract-content">
-            我的Linux安装之旅（一）——扯淡​    说起我的Linux之旅，讲道理并不怎么愉快。。。四火对Linux很感兴趣，但在Linux安装使用这条路上踩了太多坑，甚至曾经对Linux产生了心里阴影了。
-​    大一的时候总想试试，但限于知识水平有限，在安装时总会有很多愚蠢的做法，说起那时候甚至对最简单的概念，如挂载等，都没有理解其意义，可想而知会有很多愚蠢的做法。
-​    大一暑假想要换电脑，那时候总在犹豫是否要换Mac，那时候我其实特别想换Mac，但又不甘于没有好好用过Linux，最终买了我现在在用的联想Y7000，然而就是这台电脑，让我痛苦地、错误地体会着Linux。
-​    ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Pipe_vs_eventfd/">
-            
-                <span>两种IPC方式 Pipe vs eventfd</span>
-        </a>
-        <div class="abstract-content">
-            两种IPC方式 Pipe vs eventfd四火想专门对比这两种IPC方式的原因是，这些天在看Android的消息处理机制，书上的源码用的是老版本的Android，使用的IPC是管道，但最新版本的AOSP中，消息处理机制使用的IPC方式已经改为eventfd了。好奇心激发我去了解了一下，有必要记录下来。
-pipe管道管道是最原始最基本的IPC机制，用于在进程之间完成数据传递。管道的特点非常鲜明：管道的数据传输是单向的，只能一端写一端读，所以它也采用了两个文件描述符引用，一个表示读端一个表示写端。
-对管道进行读写实质上是对内核空间中的一片区域进行读写，管道是由内核管理的一个缓冲区，相当于...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="IPC">IPC</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android消息处理机制">Android消息处理机制</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Linux_IO简记/">
-            
-                <span>Linux I/O简记</span>
-        </a>
-        <div class="abstract-content">
-            Linux I/O简记缓存IOLinux默认的IO操作都是缓存IO，数据从源出发，不会被直接传送到目的，而是要经过内核，通过这种方式保证了内核对IO操作的可控。内核为IO提供了一个数据缓冲区，数据从源出发，先被拷贝到内核的缓冲区中，然后才从缓冲区拷贝到目的进程的用户地址空间。
-IO模式Linux为IO提供了5种方案：
-
-阻塞IO
-非阻塞IO
-IO多路复用
-信号驱动IO
-异步IO
-
-1. 阻塞IOLinux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="I/O">I/O</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="多路复用">多路复用</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="poll、epoll、select">poll、epoll、select</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="翻墙">翻墙</a>
     
 </div>
             
@@ -517,6 +401,10 @@ IO多路复用
     </article>
     
     <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <a class="extend prev" rel="prev" href="/archives/page/3/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span>
+    </nav>
     
 </main>
             <!-- profile -->

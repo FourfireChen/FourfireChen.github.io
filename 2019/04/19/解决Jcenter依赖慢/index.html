@@ -22,7 +22,7 @@
     <meta name="description" content="����һ��Android����Ա��С��˼">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>四火的博客</title>
+    <title>解决Jcenter依赖慢 · 四火的博客</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -228,12 +228,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Fourfire&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">解决Jcenter依赖慢</a>
+            </div>
+    </div>
     
     <a class="home-link" href="/">Fourfire's Blog</a>
 </header>
@@ -245,24 +256,80 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            解决Jcenter依赖慢
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Gradle">Gradle</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="jcenter">jcenter</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">289</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/19</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -363,161 +430,65 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">
-            
-                <span>我的Linux安装之旅（二）——Arch安装</span>
-        </a>
-        <div class="abstract-content">
-            我的Linux安装之旅（二）——Arch安装这里还是要特别感谢wd老哥的Arch安装教程。
-And，本文我只按照自己的安装路径写，具体其他问题，可以参考上面的安装教程
-启动盘制作在ArchLinux官网上下载archlinux-**-x86_64.iso这个文件，然后写入事先准备好的U盘。Linux下可以用WoeUSB，Windows下可以用Rufus。
-进入U盘下的Linux首先进入BIOS下设置好启动顺序，把USB调到第一位。后进入U盘中写入的系统，等待加载完毕。
-联网
-有线网：如果路由器支持DHCP的话，可以插上网线后执行dhcpcd命令
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="解决Jcenter依赖慢"><a href="#解决Jcenter依赖慢" class="headerlink" title="解决Jcenter依赖慢"></a>解决Jcenter依赖慢</h1><p>Android Studio，对项目的依赖有更改，需要依赖到<a href="https://jcenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。" target="_blank" rel="noopener">https://jcenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。</a></p>
+<h2 id="No-1-https协议改为http协议"><a href="#No-1-https协议改为http协议" class="headerlink" title="No.1 https协议改为http协议"></a>No.1 https协议改为http协议</h2><p>修改项目根目录下的<code>build.gradle</code>文件：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line"><span class="comment">//        jcenter()</span></span><br><span class="line">        jcenter()&#123;url <span class="string">'http://jcenter.bintray.com/'</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.android.tools.build:gradle:2.3.0'</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line"><span class="comment">//        jcenter()</span></span><br><span class="line">        jcenter()&#123;url <span class="string">'http://jcenter.bintray.com/'</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="No-2-修改Maven仓库为国内仓库"><a href="#No-2-修改Maven仓库为国内仓库" class="headerlink" title="No.2 修改Maven仓库为国内仓库"></a>No.2 修改Maven仓库为国内仓库</h2><p>同样修改根目录下的<code>build.gradle</code>文件：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line"><span class="comment">//        jcenter()</span></span><br><span class="line"><span class="comment">//        mavenCentral()</span></span><br><span class="line">        maven &#123; url <span class="string">'http://maven.aliyun.com/nexus/content/groups/public'</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>想要一劳永逸？</p>
+<p>直接修改Gradle的初始化脚本，也即运行时的全局配置就好了。</p>
+<p>在<code>USER_HOME/.gradle/</code>下新建文件<code>init.gradle</code></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">allprojects&#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        <span class="keyword">def</span> REPOSITORY_URL = <span class="string">'http://maven.aliyun.com/nexus/content/repositories/central/'</span></span><br><span class="line">        all &#123; ArtifactRepository repo -&gt;</span><br><span class="line">            <span class="keyword">if</span>(repo <span class="keyword">instanceof</span> MavenArtifactRepository)&#123;</span><br><span class="line">                <span class="keyword">def</span> url = repo.url.toString()</span><br><span class="line">                <span class="keyword">if</span> (url.startsWith(<span class="string">'https://repo1.maven.org/maven2'</span>) || url.startsWith(<span class="string">'https://jcenter.bintray.com/'</span>)) &#123;</span><br><span class="line">                    project.logger.lifecycle <span class="string">"Repository $&#123;repo.url&#125; replaced by $REPOSITORY_URL."</span></span><br><span class="line">                    remove repo</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url REPOSITORY_URL</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-无线网：最坑的地方来了，但这里还问题不大...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
-    
-</div>
-            
-        </div>
     </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">
-            
-                <span>我的Linux安装之旅（一）——扯淡</span>
-        </a>
-        <div class="abstract-content">
-            我的Linux安装之旅（一）——扯淡​    说起我的Linux之旅，讲道理并不怎么愉快。。。四火对Linux很感兴趣，但在Linux安装使用这条路上踩了太多坑，甚至曾经对Linux产生了心里阴影了。
-​    大一的时候总想试试，但限于知识水平有限，在安装时总会有很多愚蠢的做法，说起那时候甚至对最简单的概念，如挂载等，都没有理解其意义，可想而知会有很多愚蠢的做法。
-​    大一暑假想要换电脑，那时候总在犹豫是否要换Mac，那时候我其实特别想换Mac，但又不甘于没有好好用过Linux，最终买了我现在在用的联想Y7000，然而就是这台电脑，让我痛苦地、错误地体会着Linux。
-​    ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Arch">Arch</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Pipe_vs_eventfd/">
-            
-                <span>两种IPC方式 Pipe vs eventfd</span>
-        </a>
-        <div class="abstract-content">
-            两种IPC方式 Pipe vs eventfd四火想专门对比这两种IPC方式的原因是，这些天在看Android的消息处理机制，书上的源码用的是老版本的Android，使用的IPC是管道，但最新版本的AOSP中，消息处理机制使用的IPC方式已经改为eventfd了。好奇心激发我去了解了一下，有必要记录下来。
-pipe管道管道是最原始最基本的IPC机制，用于在进程之间完成数据传递。管道的特点非常鲜明：管道的数据传输是单向的，只能一端写一端读，所以它也采用了两个文件描述符引用，一个表示读端一个表示写端。
-对管道进行读写实质上是对内核空间中的一片区域进行读写，管道是由内核管理的一个缓冲区，相当于...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="IPC">IPC</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android消息处理机制">Android消息处理机制</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2018/11/05/Linux_IO简记/">
-            
-                <span>Linux I/O简记</span>
-        </a>
-        <div class="abstract-content">
-            Linux I/O简记缓存IOLinux默认的IO操作都是缓存IO，数据从源出发，不会被直接传送到目的，而是要经过内核，通过这种方式保证了内核对IO操作的可控。内核为IO提供了一个数据缓冲区，数据从源出发，先被拷贝到内核的缓冲区中，然后才从缓冲区拷贝到目的进程的用户地址空间。
-IO模式Linux为IO提供了5种方案：
-
-阻塞IO
-非阻塞IO
-IO多路复用
-信号驱动IO
-异步IO
-
-1. 阻塞IOLinux中，socket默认都是阻塞IO，用户进程通过系统调用，向内核索要数据read，内核会进行数据准备（比如网络IO中等待数据到达）。这个数据准备过程需要事件，而阻塞IO的特点就是在数据准备...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Linux">Linux</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="I/O">I/O</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="多路复用">多路复用</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="poll、epoll、select">poll、epoll、select</a>
-    
-</div>
-            
-        </div>
-    </article>
+    <!-- license  -->
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">上一篇</div>
+                <a href="/2019/04/19/解锁Gradle依赖下载新姿势/" title="解锁Gradle依赖下载新姿势">
+                    <div class="prevTitle">解锁Gradle依赖下载新姿势</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "0untM36zHX5BGt0ypBuOh5wf-gzGzoHsz",
+        appKey: "zDy3BxJq25NtYp3fHrLh54dh",
+        placeholder: "说点什么呀~ヾﾉ≧∀≦)o",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -598,6 +569,24 @@ IO多路复用
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解决Jcenter依赖慢"><span class="toc-number">1.</span> <span class="toc-text">解决Jcenter依赖慢</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#No-1-https协议改为http协议"><span class="toc-number">1.1.</span> <span class="toc-text">No.1 https协议改为http协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#No-2-修改Maven仓库为国内仓库"><span class="toc-number">1.2.</span> <span class="toc-text">No.2 修改Maven仓库为国内仓库</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1348,6 +1337,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
