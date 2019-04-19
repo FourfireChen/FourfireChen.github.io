@@ -534,7 +534,7 @@ height:50vh;
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是自定义注解所在的Module</span></span><br><span class="line">implementation project(<span class="string">":syringeannotation"</span>)</span><br><span class="line"><span class="comment">// processor Module</span></span><br><span class="line">annotationProcessor project(<span class="string">":syringeprocessor"</span>)</span><br></pre></td></tr></table></figure>
 <p>老版本中使用的不是annotationProcessor，而是apt，但现在的gradle已经淘汰了apt，也不需要做过多的配置，只需要这一行则解决问题。</p>
 <p>build一下项目，在app Module的/build/generated/source/apt/debug下即可看到</p>
-<p><img src="/home/fourfire/Blog/blog/public/assets/apt generated.png" alt></p>
+<p><img src="/images/butterknife_generated.png" alt></p>
 <p>至此注解处理器则写好了。但笔者在实现这一段的时候有个坑，就是发生了依赖冲突。autoservice库依赖于guava，而androidx库也依赖与guava的一个module，发生了冲突。如果读者也出现了冲突，在app的build.gradle中，对androidx的guava的listenablefuture移除即可。</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">implementation(<span class="string">'androidx.appcompat:appcompat:1.1.0-alpha04'</span>) &#123;</span><br><span class="line">   exclude <span class="string">group:</span> <span class="string">'com.google.guava'</span>, <span class="string">module:</span> <span class="string">'listenablefuture'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="绑定接口"><a href="#绑定接口" class="headerlink" title="绑定接口"></a>绑定接口</h2><p>下面将实现绑定接口，也就是ButterKnife.bind的行为。</p>
@@ -1254,13 +1254,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
-    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1278,9 +1278,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
     
-        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
-    
         <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1333,9 +1333,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="总结"><span class="iconfont-archer">&#xe60a;</span>总结</span>
     
-        <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
-    
         <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
