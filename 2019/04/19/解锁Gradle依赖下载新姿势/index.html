@@ -22,7 +22,7 @@
     <meta name="description" content="����һ��Android����Ա��С��˼">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>四火的置顶 · 四火的博客</title>
+    <title>解锁Gradle依赖下载新姿势 · 四火的博客</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -242,7 +242,7 @@
                 <a href="/">Fourfire&#39;s Blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">四火的置顶</a>
+                <a href="#" class="post-name">解锁Gradle依赖下载新姿势</a>
             </div>
     </div>
     
@@ -272,7 +272,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            四火的置顶
+            解锁Gradle依赖下载新姿势
             <!-- 404 -->
             
         </h1>
@@ -291,18 +291,22 @@ height:50vh;
                 
                     <div class="post-intro-tags">
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="置顶">置顶</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Gradle">Gradle</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">385</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">374</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/10/19</span>
+                    <span class="post-intro-time">2019/04/19</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -426,18 +430,17 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="四火的置顶"><a href="#四火的置顶" class="headerlink" title="四火的置顶"></a>四火的置顶</h1><p>我叫陈钊燚，是华中科技大学软件学院的一名小学生，也是华中科技大学软件学院科创团队和启明学院联创团队Android组的一名小学生。现在主要做一些安卓开发、研究的事情。从大学入学就有开博客的想法，只是困于一开始水平不高，不敢丢人现眼，于是努力学习，这些天有了一些小想法和小总结，感觉有必要正式地记录下来，于是开了这个博客。</p>
-<hr>
-<h3 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h3><ul>
-<li>Android开发记录</li>
-<li>Android源码学习：主要以最新的API28为分析对象，如有不同版本，会在博文开头说明。</li>
-<li>计算机知识记录，包括一些课程中、自学中的感受。</li>
-<li>其他杂七杂八</li>
-</ul>
-<hr>
-<h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>此博客主要用于学习交流使用，不涉及任何政治、商业内容，文章总会借鉴一些前辈大佬，但绝不是照抄照搬，记录的都是个人的学习感受。但如果有原作者认为本人有侵犯版权的行为，请发邮件通知我，一定按理处理。</p>
-<p>还有，感谢Android届的几位大大们，特别是罗升阳大大、gityuan大大、郭霖大大，我正是从他们的书和博客中窥探到了Android世界的一二分，特别感谢。</p>
-<p><strong>And 小学生谢谢点开博客的各位，欢迎所有人的评价、建议以及批评。共勉</strong></p>
+        <h1 id="解锁Gradle依赖下载新姿势"><a href="#解锁Gradle依赖下载新姿势" class="headerlink" title="解锁Gradle依赖下载新姿势"></a>解锁Gradle依赖下载新姿势</h1><p>四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见<a href="http://fourfire.top/2019/03/15/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/">Gradle代理</a>。但是在这个情况下，我解锁了一个手动下载包的新姿势。</p>
+<p>Gradle在更新的时候，在Android Studio中可以看到如下图。</p>
+<p><img src="/images/gradle_downloading.png" alt="Gradle依赖下载"></p>
+<p>在这里可以看到其下载的包的资源链接。于是就可以手动下载啦。</p>
+<p>Win选手可以使用迅雷或者其他下载工具，而Linux选手当仁不让wget，当然了，一般情况下下载速度很慢是因为没挂代理，所以wget的时候也要proxychains一下。</p>
+<p>接下来将手动下载的jar包放入gradle本地缓存目录中。对Win选手来说，gradle本地目录在C:\Users\XXX\ .gradle。对Linux选手来说，gradle本地目录就在~/.gradle。</p>
+<p>本地缓存目录在：<code>.gradle/caches/modules-2/file-2.1/</code></p>
+<p>接下来就是依据依赖的包不同而不同了，以kotlin-compiler-embeddable为例，我们要将下载下来的kotlin-compiler-embeddable-1.3.30.jar放到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradle/caches/modules-2/file-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.30(版本号)/29418ab24831ca819005f20aa32862c26938f284(AS生成的)</span><br></pre></td></tr></table></figure>
+<p>这里需要说明的是，最后一个乱七八糟的文件夹，在其目录下可能不止一个，那就选择那个里面有.pom文件的目录，放入即可。</p>
+<p>接下来重启AS，它就直接跳过啦，完美</p>
 
     </article>
     <!-- license  -->
@@ -446,17 +449,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">下一篇</div>
-                <a href="/2018/10/19/Zygote、System进程启动/" title="Zygote、System进程启动">
-                    <div class="nextTitle">Zygote、System进程启动</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">上一篇</div>
-                <a href="/2018/10/19/跳出小世界/" title="跳出小世界">
-                    <div class="prevTitle">跳出小世界</div>
+                <a href="/2019/04/19/Step-by-Step ButterKnife II——实现/" title="Step-by-Step ButterKnife II——实现注解器Syringe">
+                    <div class="prevTitle">Step-by-Step ButterKnife II——实现注解器Syringe</div>
                 </a>
             
         </li>
@@ -587,7 +585,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四火的置顶"><span class="toc-number">1.</span> <span class="toc-text">四火的置顶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主要内容"><span class="toc-number">1.0.1.</span> <span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明"><span class="toc-number">1.0.2.</span> <span class="toc-text">声明</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解锁Gradle依赖下载新姿势"><span class="toc-number">1.</span> <span class="toc-text">解锁Gradle依赖下载新姿势</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

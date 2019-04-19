@@ -424,6 +424,44 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
     
     
     <article class="index-post">
+        <a class="abstract-title" href="/2019/04/19/解锁Gradle依赖下载新姿势/">
+            
+                <span>解锁Gradle依赖下载新姿势</span>
+        </a>
+        <div class="abstract-content">
+            解锁Gradle依赖下载新姿势四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见Gradle代理。但是在这个情况下，我解锁了一个手动下载包的新姿势。
+Gradle在更新的时候，在Android Studio中可以看到如下图。
+
+在这里可以看到其下载的包的资源链接。于是就可以手动下载啦。
+Win选手可以使用迅雷或者其他下载工具，而Linux选手当仁不让wget，当然了，一般情况下下载速度很慢是因为没挂代理，所以wget的时候也要proxychains一下。
+接下来将手动下载的jar包放入gradle本地...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/19</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class="abstract-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Gradle">Gradle</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href="/2019/04/19/Step-by-Step ButterKnife II——实现/">
             
                 <span>Step-by-Step ButterKnife II——实现注解器Syringe</span>
@@ -630,9 +668,10 @@ unpinned_list：描述一个解锁内存块...
                 <span>Android Studio Gradle代理设置</span>
         </a>
         <div class="abstract-content">
-            Android Studio Gradle代理设置代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。
+            Android Studio Gradle代理设置Gradle代理和Android Studio的Setting中设置的代理不同，在Setting中设置的代理，Gradle是没用的，Gradle必须配置才能使用代理。
+代理一般有两种，一种是socks代理，一种是http代理，gradle针对这两种代理的设置方式不同。
 http编辑gradle.properties文件
-12345678#systemProp.socks.proxyHost=127.0.0.1#systemProp.socks.proxyPort=1080#systemProp.https.proxyHost=127.0.0.1#systemProp.https.proxyPort=1080#systemProp.https.proxyHost=socks5://127.0.0.1#sy...
+12345678#systemProp.socks.proxyHost=127.0.0.1#systemProp.socks.proxyPort=1080#systemProp.https.proxyHost=127.0....
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -643,9 +682,11 @@ http编辑gradle.properties文件
             
             <div class="abstract-tags">
     
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+    
         <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android Studio">Android Studio</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Gradle">Gradle</a>
     
 </div>
             
@@ -721,40 +762,6 @@ Act...
         <a class="post-tag" href="javascript:void(0);" data-tags="总结">总结</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags="2018">2018</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">
-            
-                <span>View是怎么画出来的（三）——应用进程和SurfaceFlinger</span>
-        </a>
-        <div class="abstract-content">
-            View是怎么画出来的（三）——应用进程和SurfaceFlinger关系
-应用进程和SurfaceFlinger的通讯是通过Binder来实现的。每一个Application都和SurfaceFlinger有一个连接，这个连接通过一个类型为Client的Binder对象来描述，应用程序和SurfaceFlinger建立连接之后，会得到一个Client的代理对象，则可以使用这个代理对象了。
-
-应用进程和SurfaceFlinger通讯的时候，需要将UI元数据（元数据是指各种属性）发送给SufaceFlinger，这个数据量不是一个小数据，尽管Binder只有一次内存复制，但这个效率还是不...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/12</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class="abstract-tags">
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="View">View</a>
     
 </div>
             
@@ -1275,9 +1282,22 @@ Act...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        总数 : 29
+        总数 : 30
         </div>
         <!-- search  -->
         
@@ -1294,6 +1314,11 @@ Act...
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href="/2019/04/19/解锁Gradle依赖下载新姿势/">解锁Gradle依赖下载新姿势</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1337,7 +1362,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
         </li>
     
     
@@ -1352,7 +1377,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
         </li>
     
     
@@ -1367,7 +1392,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
         </li>
     
     
@@ -1382,7 +1407,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
         </li>
     
     
@@ -1406,7 +1431,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
         </li>
     
     
@@ -1439,22 +1464,22 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
         </li>
     
     
@@ -1468,7 +1493,7 @@ Act...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
         </li>
     
     
@@ -1485,13 +1510,13 @@ Act...
     
         <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
     
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
         <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
         <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
-    
-        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
     
         <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
     
@@ -1509,9 +1534,9 @@ Act...
     
         <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
     
-        <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
-    
         <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1528,6 +1553,8 @@ Act...
         <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
     
         <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+        <span class="sidebar-tag-name" data-tags="Gradle"><span class="iconfont-archer">&#xe606;</span>Gradle</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1564,9 +1591,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="总结"><span class="iconfont-archer">&#xe60a;</span>总结</span>
     
-        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
-    
         <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
+    
+        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
     
         <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
     
