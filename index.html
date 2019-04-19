@@ -429,9 +429,9 @@ Android源码学习：主要以最新的API28为分析对象，如有不同版�
                 <span>解决Jcenter依赖慢</span>
         </a>
         <div class="abstract-content">
-            解决Jcenter依赖慢Android Studio，对项目的依赖有更改，需要依赖到https://jcenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。
+            解决Jcenter依赖慢Android Studio，对项目的依赖有更改，需要依赖到https://jecenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。
 No.1 https协议改为http协议修改项目根目录下的build.gradle文件：
-12345678910111213141516171819buildscript &#123;    repositories &#123;//        jcenter()        jcenter()&#123;url 'http://jcenter.bintray...
+12345678910111213141516171819buildscript &#123;    repositories &#123;//        jcenter()        jcenter()&#123;url 'http://jcenter.bintra...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -466,10 +466,11 @@ No.1 https协议改为http协议修改项目根目录下的build.gradle文件：
                 <span>解锁Gradle依赖下载新姿势</span>
         </a>
         <div class="abstract-content">
-            解锁Gradle依赖下载新姿势四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢。主要是访问https://jecenter.bintray.com都非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见[Gradle代理](http://fourfire.top/2019/03/15/Android%20Studio%20Gradle%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE/)。但是在这个情况下，我解锁了一个手动下载包的新姿势。
+            解锁Gradle依赖下载新姿势四火今天又一次升级Kotlin版本，然后依赖下载kotlin-compiler时，非常慢。主要是访问https://jecenter.bintray.com都非常慢！！！这个坑其实我之前踩过了，就是代理的问题。详见Gradle代理。但是在这个情况下，我解锁了一个手动下载包的新姿势。
 Gradle在更新的时候，在Android Studio中可以看到如下图。
 
-在这里可...
+在这里可以看到其下载的包的资源链接。于是就可以手动下载啦。
+Win选手可以使用迅雷或者其他下载工具，而Linux选手当仁不让wget，当然了，一般情况下下载速度很慢是因为没挂代理，所以wget的时候也要...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->

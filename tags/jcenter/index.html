@@ -376,9 +376,9 @@
                 <span>解决Jcenter依赖慢</span>
         </a>
         <div class="abstract-content">
-            解决Jcenter依赖慢Android Studio，对项目的依赖有更改，需要依赖到https://jcenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。
+            解决Jcenter依赖慢Android Studio，对项目的依赖有更改，需要依赖到https://jecenter.bintray.com时，都非常非常慢，除非对Gradle设置代理。今天仔细找了一下，有两个更好的解决办法。
 No.1 https协议改为http协议修改项目根目录下的build.gradle文件：
-12345678910111213141516171819buildscript &#123;    repositories &#123;//        jcenter()        jcenter()&#123;url 'http://jcenter.bintray...
+12345678910111213141516171819buildscript &#123;    repositories &#123;//        jcenter()        jcenter()&#123;url 'http://jcenter.bintra...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
