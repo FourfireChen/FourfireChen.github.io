@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="default">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Fourfire">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Fourfire">
+    
+    <meta name="keywords" content="Fourfire,android,程序员">
+    
+    <meta name="description" content="����һ��Android����Ա��С��˼">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Step-by-Step ButterKnife II——实现注解器Syringe · 四火的博客</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/fourfire_favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+        <!-- algolia -->
+        <script>
+            
+            var hits = JSON.parse('{"per_page":10}')
+            var labels = JSON.parse('{"input_placeholder":"Search","hits_empty":"没找到欸: ${query}","hits_stats":"已找到${hits} 个结果"}')
+
+            var algolia = {
+                applicationID: '7JTFU16QXL',
+                apiKey: '17592eabbc3b2279fce953bff97d7554',
+                indexName: 'blog',
+                hits: hits,
+                labels: labels
+            }
+        </script>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?bd53931417400badc07d884468bb6e8e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/">Fourfire&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Step-by-Step ButterKnife II——实现注解器Syringe</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href="/">Fourfire's Blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Step-by-Step ButterKnife II——实现注解器Syringe
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class="post-intro-tags">
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Android">Android</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Step-by-Step">Step-by-Step</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="butterknife">butterknife</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.2k</span>阅读时长: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/04/19</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Step-by-Step-ButterKnife-II——实现注解器Syringe"><a href="#Step-by-Step-ButterKnife-II——实现注解器Syringe" class="headerlink" title="Step-by-Step ButterKnife II——实现注解器Syringe"></a>Step-by-Step ButterKnife II——实现注解器Syringe</h1><p>下文将一步步介绍如何实现一个类ButterKnife的注解器。这里将其命名为Syringe（注射器）。以下实现的功能是ButterKnife中最常用的BindView。</p>
+<h2 id="自定义注解"><a href="#自定义注解" class="headerlink" title="自定义注解"></a>自定义注解</h2><p>新建一个Module，选择类型为Java Library，存放注解。</p>
+<p>在该Module下，新建一个自定义注解接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BindView &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是自定义注解的写法。其中</p>
+<ul>
+<li><p>@interface表示这是一个自定义注解</p>
+</li>
+<li><p>@Target表示这个注解修饰的目标类型，这里使用的ElementType.FIELD表示该自定义注解所注解的目标是一个变量</p>
+</li>
+<li><p>@Retention表示这个注解的类型。</p>
+<p>注解分为三种，分别是源码注解、编译期注解、运行时注解，这三种注解的存在时间不同，如源码级注解只会存在于源代码中，编译期和运行期都不会有注解的标识，而此处以RetentionPolicy.CLASS表示的注解，标示的是该注解在编译期会存在，而过了编译期就被丢弃的注解。</p>
+</li>
+<li><p>int value()：这是自定义注解的一种写法，表示该注解需要接收一个int的值，这个值也就是我们所需要的Id。</p>
+</li>
+</ul>
+<h2 id="注解处理器"><a href="#注解处理器" class="headerlink" title="注解处理器"></a>注解处理器</h2><p>接下来定义注解处理器，新建一个Module，类型同样需要选择为Java Library。</p>
+<h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><p>在该Module的build.gradle中添加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.squareup:javapoet:1.10.0'</span></span><br><span class="line"><span class="comment">// 这是我上一步的Module的名字，是一个自定义的命名</span></span><br><span class="line">implementation project(<span class="string">":syringeannotation"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="新建处理器类"><a href="#新建处理器类" class="headerlink" title="新建处理器类"></a>新建处理器类</h3><p>新建一个类，笔者此处命名为SyringeProcessor，作为注解处理器，处理注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyringeProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span></span></span><br></pre></td></tr></table></figure>
+<p>APT提供的注解处理器，需要继承自AbstractProcessor，我们的自定义注解处理器也当如此。</p>
+<p>当编译使用该注解处理器的代码时，编译器会调用该注解处理器的方法process，在这个方法中我们就可以进行操作，这个方法也正是我们需要重写的方法。同时我们也需要重写一些其他的辅助方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyringeProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getSupportedAnnotationTypes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Collections.singleton(BindView.class.getCanonicalName());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先是<code>getSupportedAnnotationTypes</code>方法。从这个方法返回的注解，将是该注解处理器会拦截下来的元素。也就是说，只有在这返回的注解，才会是这个注解处理器可以处理的。</p>
+<p>接下来就是重写<code>process</code>方法，处理注解。</p>
+<h3 id="处理注解"><a href="#处理注解" class="headerlink" title="处理注解"></a>处理注解</h3><p>在注解处理器中，将被注解的元素分为几种，分别是</p>
+<table>
+<thead>
+<tr>
+<th>PackageElement</th>
+<th>表示包</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TypeElement</td>
+<td>表示类或接口</td>
+</tr>
+<tr>
+<td>VariableElement</td>
+<td>表示变量、enum 常量、参数、局部变量</td>
+</tr>
+<tr>
+<td>ExecutableElement</td>
+<td>表示方法</td>
+</tr>
+<tr>
+<td>TypeParameterElement</td>
+<td>表示泛型参数</td>
+</tr>
+</tbody>
+</table>
+<p>这些元素都继承于Element类，有一些通用的方法。常用的如：</p>
+<ul>
+<li>getKind：返回一个枚举值，表示该Element的类型，这里的类型不同于Java中的类型，这里指的是包、方法、变量等等。</li>
+<li>getSimpleName：返回该元素的简单名字。</li>
+<li>getEnclosingElement：返回封装本元素的最里层元素。如对TypeElement调用该方法，返回的是最里层的包，而对一个成员变量调用该方法，返回的则是一个TypeElement。</li>
+<li>getAnnotation：返回该元素的注解。</li>
+</ul>
+<p>贴一下我的处理代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> </span>&#123;</span><br><span class="line">       Set&lt;? extends Element&gt; elements = roundEnvironment.getElementsAnnotatedWith(BindView.class);</span><br><span class="line">       <span class="comment">// key-value对应的是Activity和每个Activity中注解的元素</span></span><br><span class="line">       Map&lt;TypeElement, List&lt;Element&gt;&gt; activityWithField = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (Element element : elements) &#123;</span><br><span class="line">           <span class="comment">// 改API返回的是封装ele的最内层的元素，bindview注解的是变量，所以拿到的是activity</span></span><br><span class="line">           TypeElement activity = (TypeElement) element.getEnclosingElement();</span><br><span class="line"></span><br><span class="line">           List&lt;Element&gt; bindingView = activityWithField.get(activity);</span><br><span class="line">           <span class="keyword">if</span> (bindingView == <span class="keyword">null</span>) &#123;</span><br><span class="line">               bindingView = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">               activityWithField.put(activity, bindingView);</span><br><span class="line">           &#125;</span><br><span class="line">           bindingView.add(element);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (Map.Entry&lt;TypeElement, List&lt;Element&gt;&gt; activityWithBindingView : activityWithField.entrySet()) &#123;</span><br><span class="line">           TypeElement activity = activityWithBindingView.getKey();</span><br><span class="line"></span><br><span class="line">           String activityNameStr = activity.getSimpleName().toString();</span><br><span class="line"></span><br><span class="line">           List&lt;Element&gt; bindingViews = activityWithBindingView.getValue();</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 构造方法</span></span><br><span class="line">           MethodSpec.Builder constructorBuilder = MethodSpec.constructorBuilder()</span><br><span class="line">                   .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                   .addParameter(ClassName.bestGuess(activityNameStr), <span class="string">"targetActivity"</span>)</span><br><span class="line">                   .addStatement(<span class="string">"this.targetActivity = targetActivity"</span>);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 类</span></span><br><span class="line">           TypeSpec.Builder</span><br><span class="line">                   classBuilder =</span><br><span class="line">                   TypeSpec.classBuilder(activityNameStr + <span class="string">"_Syringe"</span>)</span><br><span class="line">                           .addField(ClassName.bestGuess(activityNameStr), <span class="string">"targetActivity"</span>)</span><br><span class="line">                           .addModifiers(Modifier.PUBLIC);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">for</span> (Element bindingView : bindingViews) &#123;</span><br><span class="line">               String viewName = bindingView.getSimpleName().toString();</span><br><span class="line"></span><br><span class="line">               <span class="keyword">int</span> bindingValue = bindingView.getAnnotation(BindView.class).value();</span><br><span class="line"></span><br><span class="line">               constructorBuilder.addStatement(<span class="string">"targetActivity."</span> +</span><br><span class="line">                       viewName +</span><br><span class="line">                       <span class="string">" = targetActivity.findViewById("</span> +</span><br><span class="line">                       bindingValue +</span><br><span class="line">                       <span class="string">");"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           classBuilder.addMethod(constructorBuilder.build());</span><br><span class="line">           JavaFile</span><br><span class="line">                   javaFile =</span><br><span class="line">                   JavaFile.builder(((PackageElement) activity.getEnclosingElement()).getQualifiedName()</span><br><span class="line">                                   .toString(),</span><br><span class="line">                           classBuilder.build()).build();</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               javaFile.writeTo(filer);</span><br><span class="line">           &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>首先从roundEnvironment中获取所有打了BindView注解的元素。这里的元素都是VariableElement。</p>
+</li>
+<li><p>扫一遍，将这些Element按不同的Activity分开来，每个Activity对应一组Element，这里以HashMap存储。依据是VariableElement的getEnclosingElement方法，获取的是TypeElement，也就是对应的Activity的Element。</p>
+</li>
+<li><p>对HashMap做遍历，处理每个Activity及其对应的Element。目标是生成一个这样子的类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fourfire.fourfirelib;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity_Syringe</span> </span>&#123;</span><br><span class="line">  MainActivity targetActivity;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">MainActivity_Syringe</span><span class="params">(MainActivity targetActivity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.targetActivity = targetActivity;</span><br><span class="line">    targetActivity.mButton = targetActivity.findViewById(<span class="number">2131230851</span>);;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>写法如上文的代码。这里使用的是JavaPoet的API，这是一个支持在代码中生成源代码的库，避免了拼接辅助源代码时大量的字符串操作。</p>
+<ul>
+<li><p>首先生成构造方法。</p>
+<p>addModifiers设置的是方法的访问控制符。</p>
+<p>addParameter添加的是参数，其中该方法接收的第一个参数是要生成的参数的类型，第二个参数是形参名字。这里可以使用ClassName.bestGuess生成第一个参数。</p>
+<p>addStatement添加的是方法的内容。</p>
+</li>
+<li><p>生成类。</p>
+<p>classBuilder方法传入的是类名。</p>
+<p>addField添加该类的成员变量。</p>
+<p>addModifiers设置该类的访问控制符</p>
+<p>接下来遍历该Activity对应的一组Element，即被注解的变量，获取其注解的值，调用构造方法Builder的addStatement生成为这些变量赋值的代码。</p>
+<p>最后将构造方法添加入类的Builder中。</p>
+</li>
+</ul>
+</li>
+<li><p>使用封装好的IO方法写入。</p>
+<p>需要注意的是，此处需要传入包名，包名可以通过activity获取到包，然后再获取该包的全名，则可以得到。</p>
+</li>
+<li><p>return true表示已经处理的注解不需要其他处理器再次处理。</p>
+</li>
+</ul>
+<h3 id="运行注解处理器"><a href="#运行注解处理器" class="headerlink" title="运行注解处理器"></a>运行注解处理器</h3><p>注解处理器写好了，但编译器如何知道要使用该注解处理器呢？这就需要配置。配置文件可以通过编辑<code>META-INF</code>文件。而google提供了一个库，可以自动生成。</p>
+<p>在processor Module的build.gradle依赖中添加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.google.auto.service:auto-service:1.0-rc2'</span></span><br></pre></td></tr></table></figure>
+<p>然后对写好的处理器类打注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SupportedSourceVersion</span>(SourceVersion.RELEASE_8)</span><br><span class="line"><span class="meta">@AutoService</span>(Processor.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyringeProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SupportedSourceVersion代表的是支持的Java版本</li>
+<li>AutoService就是配置注解处理器，有了这个注解，会自动生成配置文件，而编译器在编译时就会使用该注解处理器。</li>
+</ul>
+<p>当然处理processor Module的配置，对要使用该库的Module也要配置依赖。在app Module的build.gradle依赖中添加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是自定义注解所在的Module</span></span><br><span class="line">implementation project(<span class="string">":syringeannotation"</span>)</span><br><span class="line"><span class="comment">// processor Module</span></span><br><span class="line">annotationProcessor project(<span class="string">":syringeprocessor"</span>)</span><br></pre></td></tr></table></figure>
+<p>老版本中使用的不是annotationProcessor，而是apt，但现在的gradle已经淘汰了apt，也不需要做过多的配置，只需要这一行则解决问题。</p>
+<p>build一下项目，在app Module的/build/generated/source/apt/debug下即可看到</p>
+<p><img src="/home/fourfire/Blog/blog_res/2019-04-19-092056_392x262_scrot.png" alt></p>
+<p>至此注解处理器则写好了。但笔者在实现这一段的时候有个坑，就是发生了依赖冲突。autoservice库依赖于guava，而androidx库也依赖与guava的一个module，发生了冲突。如果读者也出现了冲突，在app的build.gradle中，对androidx的guava的listenablefuture移除即可。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">implementation(<span class="string">'androidx.appcompat:appcompat:1.1.0-alpha04'</span>) &#123;</span><br><span class="line">   exclude <span class="string">group:</span> <span class="string">'com.google.guava'</span>, <span class="string">module:</span> <span class="string">'listenablefuture'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="绑定接口"><a href="#绑定接口" class="headerlink" title="绑定接口"></a>绑定接口</h2><p>下面将实现绑定接口，也就是ButterKnife.bind的行为。</p>
+<p>由于我将自己实现的整个库命名为Syringe，bind方法我也就命名为syringe，注入的意思。</p>
+<p>同样新建一个Module，选择的是Android Library。新建一个类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Syringe</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sringe</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        String activityName = activity.getClass().getName();</span><br><span class="line">        String generateName = activityName + <span class="string">"_Syringe"</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(generateName).getConstructor(activity.getClass()).newInstance(activity);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实其实现非常简单，通过反射，调用到之前生成的辅助类的构造方法，则一切完成。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">View</span>.<span class="title">OnClickListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BindView</span>(R.id.mButton)</span><br><span class="line">    Button mButton;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Syringe.sringe(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        mButton.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"toast"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用和ButterKnife完全相同。而这里笔者没有实现click注解，所以还是手动setOnClickListener，事实上在ButterKnife中，这个也是通过注解处理可以实现，原理基本一致。</p>
+
+    </article>
+    <!-- license  -->
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">上一篇</div>
+                <a href="/2019/04/18/Step-by-Step ButterKnife I——使用与原理简述/" title="Step-by-Step ButterKnife I——使用与原理简述">
+                    <div class="prevTitle">Step-by-Step ButterKnife I——使用与原理简述</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "0untM36zHX5BGt0ypBuOh5wf-gzGzoHsz",
+        appKey: "zDy3BxJq25NtYp3fHrLh54dh",
+        placeholder: "说点什么呀~ヾﾉ≧∀≦)o",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:1215638092@qq.com" class="iconfont-archer email" title="email"></a>
+            
+        
+    
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title="qq">
+                  
+                  <img class="profile-qr" src="/intro/qq.jpg">
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Step-by-Step-ButterKnife-II——实现注解器Syringe"><span class="toc-number">1.</span> <span class="toc-text">Step-by-Step ButterKnife II——实现注解器Syringe</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义注解"><span class="toc-number">1.1.</span> <span class="toc-text">自定义注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注解处理器"><span class="toc-number">1.2.</span> <span class="toc-text">注解处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖"><span class="toc-number">1.2.1.</span> <span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新建处理器类"><span class="toc-number">1.2.2.</span> <span class="toc-text">新建处理器类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理注解"><span class="toc-number">1.2.3.</span> <span class="toc-text">处理注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行注解处理器"><span class="toc-number">1.2.4.</span> <span class="toc-text">运行注解处理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#绑定接口"><span class="toc-number">1.3.</span> <span class="toc-text">绑定接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">1.4.</span> <span class="toc-text">使用</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">归档</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">标签</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">类别</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        总数 : 29
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href="/2019/04/19/Step-by-Step ButterKnife II——实现/">Step-by-Step ButterKnife II——实现注解器Syringe</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href="/2019/04/18/Step-by-Step ButterKnife I——使用与原理简述/">Step-by-Step ButterKnife I——使用与原理简述</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href="/2019/04/15/Step-by-Step OpenSource 起始章/">Step-by-Step OpenSource 起始章</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2019/04/11/Ashmem匿名共享内存二——Runtime、Native、Framework/">Ashmem匿名共享内存二——Runtime、Native、Framework</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2019/04/10/Ashmem匿名共享内存一——驱动程序/">Ashmem匿名共享内存一——驱动程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href="/2019/03/15/Android Studio Gradle代理设置/">Android Studio Gradle代理设置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href="/2019/03/13/View是怎么画出来的（四）——应用程序窗口/">View是怎么画出来的（四）——应用程序窗口</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href="/2019/03/12/View是怎么画出来的（三）——应用进程和SurfaceFlinger/">View是怎么画出来的（三）——应用进程和SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href="/2019/03/11/View是怎么画出来的（二）——SurfaceFlinger/">View是怎么画出来的（二）——SurfaceFlinger</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/27</span><a class="archive-post-title" href="/2019/02/27/操作系统学习简记十——文件/">操作系统学习简记十——文件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/26</span><a class="archive-post-title" href="/2019/02/26/操作系统学习简记九——进程间通讯/">操作系统学习简记九——进程间通讯</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记八——同步互斥/">操作系统学习简记八——同步互斥</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记五——线程基础/">操作系统学习简记五——线程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2019/02/14/操作系统学习简记六——进程管理/">操作系统学习简记六——进程管理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href="/2019/02/13/操作系统学习简记四——进程基础/">操作系统学习简记四——进程基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href="/2019/02/11/操作系统学习简记二——内存/">操作系统学习简记二——内存基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href="/2019/02/10/操作系统学习简记一——启动、系统调用、中断、异常/">操作系统学习简记一——启动、系统调用、中断、异常</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（二）——Arch安装/">我的Linux安装之旅（二）——Arch安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/19</span><a class="archive-post-title" href="/2019/01/19/沉浸式状态栏/">沉浸式状态栏简记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Pipe_vs_eventfd/">两种IPC方式 Pipe vs eventfd</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href="/2018/11/05/Linux_IO简记/">Linux I/O简记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/四火的置顶/">四火的置顶</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href="/2019/03/12/2018下学期学期总结/">2018年下半学期学期总结</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span><a class="archive-post-title" href="/2019/03/10/View是怎么画出来的（一）——基础/">View是怎么画出来的（一）——基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/25</span><a class="archive-post-title" href="/2019/02/25/操作系统学习简记七——处理机调度/">操作系统学习简记七——处理机调度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href="/2019/02/12/操作系统学习简记三——虚拟内存/">操作系统学习简记三——虚拟内存</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/25</span><a class="archive-post-title" href="/2019/01/25/我的Linux安装之旅（一）——扯淡/">我的Linux安装之旅（一）——扯淡</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/Zygote、System进程启动/">Zygote、System进程启动</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href="/2018/10/19/跳出小世界/">跳出小世界</a>
+        </li>
+    
+    </ul></div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Android Studio"><span class="iconfont-archer">&#xe606;</span>Android Studio</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android"><span class="iconfont-archer">&#xe606;</span>Android</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="2018"><span class="iconfont-archer">&#xe606;</span>2018</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="kernel"><span class="iconfont-archer">&#xe606;</span>kernel</span>
+    
+        <span class="sidebar-tag-name" data-tags="Step-by-Step"><span class="iconfont-archer">&#xe606;</span>Step-by-Step</span>
+    
+        <span class="sidebar-tag-name" data-tags="butterknife"><span class="iconfont-archer">&#xe606;</span>butterknife</span>
+    
+        <span class="sidebar-tag-name" data-tags="I/O"><span class="iconfont-archer">&#xe606;</span>I/O</span>
+    
+        <span class="sidebar-tag-name" data-tags="多路复用"><span class="iconfont-archer">&#xe606;</span>多路复用</span>
+    
+        <span class="sidebar-tag-name" data-tags="poll、epoll、select"><span class="iconfont-archer">&#xe606;</span>poll、epoll、select</span>
+    
+        <span class="sidebar-tag-name" data-tags="IPC"><span class="iconfont-archer">&#xe606;</span>IPC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android消息处理机制"><span class="iconfont-archer">&#xe606;</span>Android消息处理机制</span>
+    
+        <span class="sidebar-tag-name" data-tags="View"><span class="iconfont-archer">&#xe606;</span>View</span>
+    
+        <span class="sidebar-tag-name" data-tags="置顶"><span class="iconfont-archer">&#xe606;</span>置顶</span>
+    
+        <span class="sidebar-tag-name" data-tags="Arch"><span class="iconfont-archer">&#xe606;</span>Arch</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="沉浸式状态栏"><span class="iconfont-archer">&#xe606;</span>沉浸式状态栏</span>
+    
+        <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
+    
+        <span class="sidebar-tag-name" data-tags="翻墙"><span class="iconfont-archer">&#xe606;</span>翻墙</span>
+    
+        <span class="sidebar-tag-name" data-tags="Android系统"><span class="iconfont-archer">&#xe606;</span>Android系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="Zygote"><span class="iconfont-archer">&#xe606;</span>Zygote</span>
+    
+        <span class="sidebar-tag-name" data-tags="System"><span class="iconfont-archer">&#xe606;</span>System</span>
+    
+        <span class="sidebar-tag-name" data-tags="进程"><span class="iconfont-archer">&#xe606;</span>进程</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Android"><span class="iconfont-archer">&#xe60a;</span>Android</span>
+    
+        <span class="sidebar-category-name" data-categories="总结"><span class="iconfont-archer">&#xe60a;</span>总结</span>
+    
+        <span class="sidebar-category-name" data-categories="Android源码"><span class="iconfont-archer">&#xe60a;</span>Android源码</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux"><span class="iconfont-archer">&#xe60a;</span>Linux</span>
+    
+        <span class="sidebar-category-name" data-categories="OS"><span class="iconfont-archer">&#xe60a;</span>OS</span>
+    
+        <span class="sidebar-category-name" data-categories="杂七杂八"><span class="iconfont-archer">&#xe60a;</span>杂七杂八</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div>
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Fourfire"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
